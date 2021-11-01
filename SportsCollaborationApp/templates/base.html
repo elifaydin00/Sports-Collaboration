@@ -17,8 +17,10 @@
     {% include "components/navbar.html" %}
     {% block navbar %}{% endblock %}
     
-    {% block content %}{% endblock %}
-    
+    <div style="min-height: 88vh;">
+      {% block content %}{% endblock %}
+    </div>
+  
     {% include "components/footer.html" %} 
     {% block footer %}{% endblock %}
   </body>

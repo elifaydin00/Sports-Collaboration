@@ -6,7 +6,7 @@ class SiteUser(models.Model):
 	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	name = models.CharField(max_length=50)
-	email = models.EmailField()
+	email = models.CharField(max_length=50)
 	age = models.IntegerField()
 	gender = models.CharField(max_length=25, choices=(('1', 'Male'), ('2', 'Female'), ('3', 'Other')))
 	location = models.CharField(max_length=150)

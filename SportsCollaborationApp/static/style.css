@@ -1,49 +1,61 @@
-
-
-
-.logbox{
-    width: 380px;
-    height: 480px;
-    top: 50%;
-    left: 50%;
-    position: absolute;
-    box-sizing: border-box;
-    transform: translate(-50%,-50%);
-    border-radius: 20px;
-    border: 1px solid silver;
-    background-color: white;
-
+.logbox {
+  width: 380px;
+  height: 480px;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  box-sizing: border-box;
+  transform: translate(-50%,-50%);
+  border-radius: 20px;
+  border: 1px solid silver;
+  background-color: white;
 }
 
-.logbox p{
-    margin:0;
-    padding: 0;
-    font-weight: bold;
+.logbox p {
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+  text-indent: 20%;
 }
 
-.logbox input{
-width: 60%;
-margin-bottom: 20px;
-
+.logbox input {
+  width: 60%;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 2px solid lightgrey;
+  font-family: monospace;
+  text-indent: 5px;
 }
 
-.logbox input[type = "submit"]{
-    width: 35%;
-    margin-bottom: 20px;  
-    margin-top: 20px;
-    margin-left: 77px;
+.logbox input[type="submit"] {
+  width: 35%;
+  margin-bottom: 20px;  
+  margin-top: 20px;
+  margin-left: 77px;
 }
 
 .btn {
-    border: none;
-    background-color: inherit;
-    padding: 14px 28px;
-    font-size: 16px;
-    cursor: pointer;
-    display: inline-block;
-    color: blue;
-    text-decoration: underline;
-  }
+  border: none;
+  background-color: inherit;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-block;
+  color: blue;
+  text-decoration: underline;
+}
 
+.btn:hover {
+  background: #eee;
+}
+ 
+.logbox button[type="submit"] {
+  width: 35%;
+  margin-bottom: 20px;  
+  margin-top: 20px;
+  margin-left: 30%;
+}
   
-  .btn:hover {background: #eee;}
+.paragraph {
+  font-family: 'Ubuntu', sans-serif;
+}  

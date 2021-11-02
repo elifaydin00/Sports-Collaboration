@@ -12,28 +12,23 @@ def loginPage(request):
 
   if request.method == 'POST':
 
-    error_given = False
     email = request.POST['email']
     password = request.POST['password']
 
     try:
       user = SiteUser.objects.get(email=email)
-
     except:
-      if error_given is False:
-        messages.error(request, 'User does not exist!')
-        error_given = True
+      messages.error(request, 'User does not exist!')
+      return redirect('login')
 
     user = auth.authenticate(request, username=email.split("@")[0], password=password)
 
     if user is not None:
       auth.login(request, user)
       return redirect('main')
-
     else:
-      if error_given is False:
-        messages.error(request, 'Email or password is incorrect!')
-        error_given = True
+      messages.error(request, 'Email or password is incorrect!')
+      return redirect('login')
 
   return render(request, "pages/LoginPage.html")
 

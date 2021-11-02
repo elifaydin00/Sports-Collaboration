@@ -7,17 +7,21 @@
     <h1 class="paragraph" style="text-indent: 15%; margin-top:20px;">Find Me</h1>
     <h1 class="paragraph" style="text-indent: 35%; border-bottom: 1px silver solid; padding: 0 0 20px 0;">An Athlete</h1>
     <form action="" method="post"> {% csrf_token %}
-      <p style="margin-bottom: 5px;">Email</p>
+      <p style="text-indent: 20%; margin-bottom: 5px;">Email</p>
       <input class="formbox" style="margin: 0px auto; display: block;" type="text" name="email" placeholder="Enter Email">
-      <p style="margin-bottom: 5px; margin-top: 5px;">Password</p>
+      <p style="text-indent: 20%; margin-bottom: 5px; margin-top: 5px;">Password</p>
       <input class="formbox" style="margin: 0px auto; display:block;" type="password" name="password" placeholder="Enter Password">
-      <button type="submit" class="btn btn-primary btn-sm">Login</button>
-      <button style="margin:0px auto; display:block;" class="btn">Continue as Anonymous User</button>
-      <p>Still dont have account?<button class="btn">Register</button></p>
+      <div class="col text-center">
+        <button type="submit" class="btn btn-primary btn-sm">Login</button>
+      </div>
     </form>
+    <!--<button style="margin: 0px auto; display: block;" class="btn">Continue as Anonymous User</button>-->
+    <div class="col text-center">
+      <p style="text-align: center;">Still dont have account?<button class="btn">Register</button></p>
+    </div>
     {% if messages %}
       {% for message in messages %}
-        <div class="text-center text-danger">{{ message }}</div>
+        <div style="margin-top: 15px;" class="text-center text-danger">{{ message }}</div>
       {% endfor %}
     {% endif %}
   </div>

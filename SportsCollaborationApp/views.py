@@ -32,6 +32,64 @@ def loginPage(request):
 
   return render(request, "pages/LoginPage.html")
 
+def registerPage(request):
+
+  if request.user.is_authenticated:
+    return redirect('main')
+
+  if request.method == 'POST':
+
+    name = request.POST['fullname']
+    email = request.POST['email']
+    age = request.POST['age']
+    number = request.POST['number']
+    gender = request.POST['gender']
+    location = request.POST['location']
+    password = request.POST['password']
+    password2 = request.POST['password2']
+
+    if (name == "" or gender == "Please select" or password == "" or number == "" or email == "" or password2 == "" or age == "" or location == ""):
+      messages.error(request, 'Please, fill all of fields!')
+      return redirect('register')
+
+    try:
+      user = SiteUser.objects.get(email=email)
+      messages.error(request, 'Email is already registered!')
+      return redirect('register')
+    except:
+      pass
+
+    if int(age) < 15 or int(age) > 55:
+      messages.error(request, 'Your age is not eligible to sign up!')
+      return redirect('register')
+
+    try:
+      user = SiteUser.objects.get(phoneNumber=number)
+      messages.error(request, 'Phone number is already registered!')
+      return redirect('register')
+    except:
+      pass
+    
+    if password != password2:
+      messages.error(request, 'Passwords do not match!')
+      return redirect('register')
+
+    gender_val = '0'
+    if gender == "Male":
+      gender_val = '1'
+    elif gender == "Female":
+      gender_val = '2'
+    elif gender == "Other":
+      gender_val = '3'
+
+    user = User.objects.create_user(email.split("@")[0], '', password)
+    siteUser = SiteUser(user=user, name=name, email=email, age=age, phoneNumber=number, gender=gender_val, location=location, balance=0.0)
+    siteUser.save()
+    auth.login(request, user)
+    return redirect('main')
+
+  return render(request, 'pages/RegisterPage.html')
+
 def logoutPage(request):
   auth.logout(request)
   return redirect('login')

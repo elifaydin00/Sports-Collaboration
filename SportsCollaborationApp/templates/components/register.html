@@ -1,0 +1,74 @@
+{% load static %}
+
+{% block register %}
+
+<div style="justify-content: center; align-items: center; height: 100vh; display: flex; background-size:cover; background-image: url({% static 'img/register_bg.jpg' %});">
+  <div class="container">
+    <div id="regpg">
+      <div class="title">Sign Up</div>
+        <div class="content" style="height: 67.5vh;">
+          <form action="" method="post"> {% csrf_token %}
+            <div class="input-form">
+              <div class="row">
+                <div class="col-lg-6 col-md-12 two-box">
+                  <div class="input-box">
+                    <span class="details">Name</span>
+                    <input type="text" name="fullname" placeholder="Enter your name">
+                  </div>
+                  <div class="input-box">
+                    <span class="details">Age</span>
+                    <input type="number" name="age" placeholder="Enter your age">
+                  </div>     
+                  <div class="input-box">
+                    <span class="details">Gender</span>
+                    <select class="form-control" name="gender">
+                      <option>Please select</option>
+                      <option>Male</option>
+                      <option>Female</option>
+                      <option>Other</option>
+                    </select>
+                  </div>         
+                  <div class="input-box">
+                    <span class="details">Password</span>
+                    <input type="password" name="password" placeholder="Type your password">
+                  </div>
+                </div> 
+                <div class="col-lg-6 col-md-12 two-box">
+                  <div class="input-box">
+                    <span class="details">Email</span>
+                    <input type="text" name="email" placeholder="Enter your email">
+                  </div>
+                  <div class="input-box">
+                    <span class="details">Phone Number</span>
+                    <input type="text" name="number" placeholder="Enter your phone number">
+                  </div> 
+                  <div class="input-box">
+                    <span class="details">Location</span>
+                    <input type="text" name="location" placeholder="Enter your location">
+                  </div>       
+                  <div class="input-box">
+                    <span class="details">Confirm Password</span>
+                    <input type="password" name="password2" placeholder="Re-type your password">
+                  </div>
+                </div>
+              </div> 
+            </div> 
+            <div class="button">
+              <input type="submit" value="Sign Up">
+            </div>
+          </form>
+          <div class="col text-center">
+            <p style="text-align: center;">Already have an account?<a href="/login/" class="btn">Log In</a></p>
+          </div>
+          {% if messages %}
+            {% for message in messages %}
+              <div style="margin-top: 5px;" class="text-center text-danger">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>  
+  </div>
+</div>
+
+{% endblock register %}

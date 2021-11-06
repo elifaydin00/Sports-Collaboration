@@ -58,3 +58,103 @@
 .paragraph {
   font-family: 'Ubuntu', sans-serif;
 }  
+
+:root {
+  --primary-color: rgba(0, 0, 0, 0.836);
+  --primary-color2: rgba(0, 0, 0, 0.548);
+  --title-color: #141313;
+  --text-color: #a7a3a3;  
+  --border-color: #201f1f17;  
+  --gradient-color: linear-gradient(90deg, #303035 0%, #4c4853 100%);
+  --shadow-color:  0px 10px 30px rgba(38, 37, 41, 0.3);
+  --box-shadow: 0px 10px 30px rgba(37, 36, 39, 0.205);
+  --roboto: 'Roboto', cursive;
+} 
+
+#regpg {
+  width: 100%;
+  background-color: white;
+  padding: 25px 30px;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.418);
+}
+
+#regpg .title {
+  position: relative;
+  font: var(--roboto);
+  font-size: 25px;
+  font-weight: 800;
+  
+}
+
+#regpg .title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 5px;
+  width: 10px;
+  border-radius: 5px;
+  background: grey;
+}
+
+.content form .input-form {
+  margin-top: 2%; 
+}
+
+form .input-form .two-box .input-box { 
+  padding-bottom: 7.5%;
+  width: fit-content;  
+}
+
+form .input-box span.details {
+  display: block;
+}
+
+.input-form .two-box .input-box input, .input-form .two-box .input-box select {
+  height: 45px;
+  width: 25vw;
+  outline: none;
+  font: var(--roboto);
+  font-size: 16px;
+  border-radius: 5px;
+  padding-left: 15px;
+  border: 1px solid #ccc;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+}
+
+.input-form .input-box input:focus, .input-form .input-box input:valid {
+  border-color: grey;
+}
+
+form .button {
+  height: 45px;
+  margin: 35px 0;
+}
+
+.button input {
+  height: 100%;
+  width: 35%;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  font:var(--roboto);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: rgba(0, 0, 0, 0.39);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+form .button input:hover {
+  background: rgba(0, 0, 0, 0.87);
+}
+
+.input-form .two-box .input-box input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}

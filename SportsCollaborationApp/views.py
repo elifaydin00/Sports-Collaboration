@@ -97,3 +97,7 @@ def logoutPage(request):
 @login_required(login_url='login')
 def mainPage(request):
     return render(request, 'pages/MainPage.html')
+
+@login_required(login_url='login')
+def settingsPage(request):
+    return render(request, 'pages/SettingsPage.html')

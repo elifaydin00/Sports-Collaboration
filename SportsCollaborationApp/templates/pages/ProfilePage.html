@@ -1,0 +1,19 @@
+{% extends "../base.html" %}
+
+{% block title %}My Profile{% endblock title %}
+
+{% block content %}
+
+{% include "../components/navbar.html" %}
+{% block navbar %}
+{% endblock %}
+
+<div style="min-height: 88vh;">
+  <p>My Profile</p>
+</div>
+
+{% include "../components/footer.html" %}
+{% block footer %}
+{% endblock %}
+
+{% endblock content %}

@@ -1,6 +1,6 @@
 {% extends "../base.html" %}
 
-{% block title %}Settings{% endblock title %}
+{% block title %}Activity by {{siteUser.name}}{% endblock title %}
 
 {% block content %}
 
@@ -8,9 +8,9 @@
 {% block navbar %}
 {% endblock navbar %}
 
-{% include "../components/settings.html" %}
-{% block settings %}
-{% endblock settings %}
+{% include "../components/activity.html" %}
+{% block activity %}
+{% endblock activity %}
 
 {% include "../components/footer.html" %}
 {% block footer %}

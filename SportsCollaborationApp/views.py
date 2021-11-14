@@ -107,3 +107,13 @@ def profilePage(request, username):
 @login_required(login_url='login')
 def settingsPage(request):
     return render(request, 'pages/SettingsPage.html')
+
+@login_required(login_url='login')
+def searchPage(request, search_str):
+    return render(request, 'pages/SearchPage.html', {'search_str': search_str}) # results
+
+@login_required(login_url='login')
+def activityPage(request, id):
+    activity = Activity.objects.get(id=id)
+    siteUser = SiteUser.objects.get(user=activity.siteUser.user)
+    return render(request, 'pages/ActivityPage.html', {'activity': activity, 'siteUser': siteUser})

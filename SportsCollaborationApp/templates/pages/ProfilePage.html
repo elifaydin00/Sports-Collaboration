@@ -6,19 +6,14 @@
 
 {% include "../components/navbar.html" %}
 {% block navbar %}
-{% endblock %}
+{% endblock navbar %}
 
-<div style="min-height: 88vh;">
-
-  <!--
-    <p> {{ siteUser.email }}  </p>
-    <p> {{ itself }}  </p>
-  -->
-
-</div>
+{% include "../components/profile.html" %}
+{% block profile %}
+{% endblock profile %}
 
 {% include "../components/footer.html" %}
 {% block footer %}
-{% endblock %}
+{% endblock footer %}
 
 {% endblock content %}

@@ -8,7 +8,7 @@
       <a class="navbar-brand text-light mr-auto" href="/">Find Me An Athlete</a>
 			<ul class="navbar-nav ml-auto">
 				<div class="input-group">
-					<a href="{% url 'profile' %}" class="nav-link" style="width: 6vw;">My Profile <i class="fa fa-user-circle"></i></a>
+					<a href="{% url 'profile' request.user.username %}" class="nav-link" style="width: 6vw;">My Profile <i class="fa fa-user-circle"></i></a>
 				</div>
 			  <div class="input-group">
           <a href="{% url 'logout' %}" class="nav-link" style="width: 6vw;">Logout <i class="fa fa-sign-out"></i></a>

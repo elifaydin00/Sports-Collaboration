@@ -99,8 +99,10 @@ def mainPage(request):
     return render(request, 'pages/MainPage.html')
 
 @login_required(login_url='login')
-def profilePage(request):
-    return render(request, 'pages/ProfilePage.html')
+def profilePage(request, username):
+    user = User.objects.get(username=username)
+    siteUser = SiteUser.objects.get(user=user)
+    return render(request, 'pages/ProfilePage.html', {'siteUser': siteUser, 'itself': request.user == user})
 
 @login_required(login_url='login')
 def settingsPage(request):

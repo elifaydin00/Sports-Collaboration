@@ -28,7 +28,7 @@
 
 .logbox input[type="submit"] {
   width: 35%;
-  margin-bottom: 20px;  
+  margin-bottom: 20px;
   margin-top: 20px;
   margin-left: 77px;
 }
@@ -48,28 +48,28 @@
 .btn:hover {
   background: #eee;
 }
- 
+
 .logbox button[type="submit"] {
   width: 35%;
   margin-top: 25px;
-  margin-bottom: 15px;  
+  margin-bottom: 15px;
 }
-  
+
 .paragraph {
   font-family: 'Ubuntu', sans-serif;
-}  
+}
 
 :root {
   --primary-color: rgba(0, 0, 0, 0.836);
   --primary-color2: rgba(0, 0, 0, 0.548);
   --title-color: #141313;
-  --text-color: #a7a3a3;  
-  --border-color: #201f1f17;  
+  --text-color: #a7a3a3;
+  --border-color: #201f1f17;
   --gradient-color: linear-gradient(90deg, #303035 0%, #4c4853 100%);
   --shadow-color:  0px 10px 30px rgba(38, 37, 41, 0.3);
   --box-shadow: 0px 10px 30px rgba(37, 36, 39, 0.205);
   --roboto: 'Roboto', cursive;
-} 
+}
 
 #regpg {
   width: 100%;
@@ -84,7 +84,7 @@
   font: var(--roboto);
   font-size: 25px;
   font-weight: 800;
-  
+
 }
 
 #regpg .title::before {
@@ -99,12 +99,12 @@
 }
 
 .content form .input-form {
-  margin-top: 2%; 
+  margin-top: 2%;
 }
 
-form .input-form .two-box .input-box { 
+form .input-form .two-box .input-box {
   padding-bottom: 7.5%;
-  width: fit-content;  
+  width: fit-content;
 }
 
 form .input-box span.details {
@@ -159,19 +159,23 @@ form .button input:hover {
   -webkit-appearance: none;
 }
 
-/*Card Styles*/
 .card-container {
   background-color: rgba(128, 128, 128, 0.185);
-  border-radius: 5px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  margin-left: 2.5vw;
+  margin-right: 2.55vw;
   box-shadow: 0px 10px 20px -10px rgba(0,0,0,0.75);
   color: #B3B8CD;
-  padding-top: 30px;
+  padding-top: 15px;
   position: relative;
-  width: 350px;
   max-width: 100%;
-  text-align: center;
+  text-align: left;
 }
 
+.card-without-tags {
+  padding-left: 15px;
+}
 
 .card-container .tutor {
   color: #231E39;
@@ -190,11 +194,9 @@ form .button input:hover {
   border-color: #ccc;
   border-radius: 50%;
   padding: 7px;
-  width:200px;
-  height:200px;
+  width: 200px;
+  height: 200px;
 }
-
-
 
 button.players {
   background-color:rgba(27, 26, 26, 0);
@@ -203,14 +205,17 @@ button.players {
   color: #231E39;
   font-family: Montserrat, sans-serif;
   font-weight: 500;
-  padding: 10px 25px;
+  padding: 15px;
 }
 
 .tags {
   background-color: #1F1A36;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
   text-align: left;
-  padding: 15px;
-  margin-top: 30px;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .tags ul {
@@ -224,6 +229,6 @@ button.players {
   border-radius: 2px;
   display: inline-block;
   font-size: 12px;
-  margin: 0 7px 7px 0;
+  margin: 7px;
   padding: 7px;
 }

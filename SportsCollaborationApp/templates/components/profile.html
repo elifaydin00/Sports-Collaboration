@@ -3,12 +3,16 @@
 {% block profile %}
 
 <div style="min-height: 88vh;">
-
-  
-    <p> {{ siteUser.email }}  </p>
-    <p> {{ itself }}  </p>
-  
-
+  <div class="container">
+    <p>{{ siteUser.email }}</p>
+    <p>{{ itself }}</p>
+    <p>Past Activities</p>
+    {% for activity, tags in activities_tags %}
+      {% include "../cards/activity_card.html" with activity=activity tags=tags %}
+      {% block activity_card %}
+      {% endblock activity_card %}
+    {% endfor %}
+  </div>
 </div>
 
 {% endblock profile %}

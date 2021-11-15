@@ -96,13 +96,37 @@ def logoutPage(request):
 
 @login_required(login_url='login')
 def mainPage(request):
-    return render(request, 'pages/MainPage.html')
+    participated_activities = ParticipantOfActivity.objects.filter(siteUser__user=request.user)
+    activities = []
+    tags_list = []
+    for i in participated_activities:
+        if i.activity.status != '3':
+          curr_tags = Tag.objects.filter(activity=i.activity)
+          curr_tags_strings_list = []
+          for j in curr_tags:
+              curr_tags_strings_list.append(j.descriptiveString)
+          curr_tags_strings_list.sort()
+          activities.append(i.activity)
+          tags_list.append(curr_tags_strings_list)
+    return render(request, 'pages/MainPage.html', {'activities_tags': zip(activities, tags_list)})
 
 @login_required(login_url='login')
 def profilePage(request, username):
     user = User.objects.get(username=username)
     siteUser = SiteUser.objects.get(user=user)
-    return render(request, 'pages/ProfilePage.html', {'siteUser': siteUser, 'itself': request.user == user})
+    participated_activities = ParticipantOfActivity.objects.filter(siteUser__user=request.user)
+    activities = []
+    tags_list = []
+    for i in participated_activities:
+        if i.activity.status == '3':
+            curr_tags = Tag.objects.filter(activity=i.activity)
+            curr_tags_strings_list = []
+            for j in curr_tags:
+                curr_tags_strings_list.append(j.descriptiveString)
+            curr_tags_strings_list.sort()
+            activities.append(i.activity)
+            tags_list.append(curr_tags_strings_list)
+    return render(request, 'pages/ProfilePage.html', {'siteUser': siteUser, 'itself': request.user == user, 'activities_tags': zip(activities, tags_list)})
 
 @login_required(login_url='login')
 def settingsPage(request):

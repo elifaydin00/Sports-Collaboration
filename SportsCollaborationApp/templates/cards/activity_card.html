@@ -2,6 +2,27 @@
 
 {% block activity_card %}
 
-
+<div class="card-container mt-4 mb-4">
+  <div onclick="location.href='{% url 'activity' activity.id %}';" style="cursor: pointer;">
+    <div class="card-without-tags">
+      <h3>Activity by {{activity.siteUser.name}}</h3>
+      <h5>Title: {{activity.title}}</h5>
+      <h6>Description: {{activity.description}}</h6>
+      <h6>Attendants: {{activity.currentUsers}} / {{activity.maxUsers}}</h6>
+    </div>
+    <div class="tags">
+      {% if tags %}
+        <ul>
+          {% for tag in tags %}
+            <li>{{tag}}</li>
+          {% endfor %}
+        </ul>
+      {% else%}
+        <ul style="  font-size: 12px; margin: 7px; padding: 7px;">(No Tags)</ul>
+      {% endif %}
+      </ul>
+    </div>
+  </div>
+</div>
 
 {% endblock activity_card %}

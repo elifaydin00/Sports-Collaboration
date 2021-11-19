@@ -101,13 +101,21 @@ def mainPage(request):
     tags_list = []
     for i in participated_activities:
         if i.activity.status != '3':
-          curr_tags = Tag.objects.filter(activity=i.activity)
-          curr_tags_strings_list = []
-          for j in curr_tags:
-              curr_tags_strings_list.append(j.descriptiveString)
-          curr_tags_strings_list.sort()
-          activities.append(i.activity)
-          tags_list.append(curr_tags_strings_list)
+            curr_tags = Tag.objects.filter(activity=i.activity)
+            curr_tags_strings_list = []
+            for j in curr_tags:
+                curr_tags_strings_list.append(j.descriptiveString)
+            curr_tags_strings_list.sort()
+            activities.append(i.activity)
+            tags_list.append(curr_tags_strings_list)
+
+
+    if request.method == 'POST':
+        if request.POST.get('search_box') != "":
+            return redirect('search', request.POST.get('search_box'))
+        else:
+            messages.error(request, "Search field can not be empty!")
+
     return render(request, 'pages/MainPage.html', {'activities_tags': zip(activities, tags_list)})
 
 @login_required(login_url='login')
@@ -134,7 +142,31 @@ def settingsPage(request):
 
 @login_required(login_url='login')
 def searchPage(request, search_str):
-    return render(request, 'pages/SearchPage.html', {'search_str': search_str}) # results
+    
+    all_activities = Activity.objects.all()
+    all_tags = Tag.objects.all()
+    activities = []
+    tags_list = []
+    for i in all_activities:
+        if i.status != '3' and (search_str.lower() in i.title.lower() or search_str.lower() in i.siteUser.name.lower()):
+            curr_tags = Tag.objects.filter(activity=i)
+            curr_tags_strings_list = []
+            for j in curr_tags:
+                curr_tags_strings_list.append(j.descriptiveString)
+            curr_tags_strings_list.sort()
+            activities.append(i)
+            tags_list.append(curr_tags_strings_list)
+    for i in all_tags:
+        if i.activity not in activities and i.activity.status != 3 and search_str.lower() in i.activity.title.lower():
+            curr_tags = Tag.objects.filter(activity=i.activity)
+            curr_tags_strings_list = []
+            for j in curr_tags:
+                curr_tags_strings_list.append(j.descriptiveString)
+            curr_tags_strings_list.sort()
+            activities.append(i.activity)
+            tags_list.append(curr_tags_strings_list)
+
+    return render(request, 'pages/SearchPage.html', {'activities_tags': zip(activities, tags_list), 'exist': len(activities) != 0}) # results
 
 @login_required(login_url='login')
 def activityPage(request, id):

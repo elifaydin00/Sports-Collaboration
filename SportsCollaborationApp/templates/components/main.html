@@ -4,16 +4,27 @@
 
 <div style="min-height: 88vh;">
 	<div class="container">
-    <div class="pt-4 pb-4">
+    <div class="pt-4 pb-1">
       <div style="width: 25vw; height: 10vh; margin: auto;">
         <h5 style="text-align: center;">Search Activities / Sports</h5>
-        <div class="input-group" style="width: 20vw; margin: auto; position: relative;">
-          <input type="text" class="form-control" style="width: 16vw; border-radius: 0px;" placeholder="Search" aria-label="Search">
-          <button class="btn btn-secondary text-decoration-none" style="width: 4vw; border-radius: 0px;" type="button"><i class="fa fa-search"></i></button>
-        </div>
+        <form action="" method="POST"> {% csrf_token %}
+          <div class="input-group" style="width: 20vw; margin: auto; position: relative;">
+            <input name="search_box" type="text" class="form-control" style="width: 16vw; border-radius: 0px;" placeholder="Search" aria-label="Search">
+            <button class="btn btn-secondary text-decoration-none" style="width: 4vw; border-radius: 0px;" type="submit"><i class="fa fa-search"></i></button>
+          </div>
+        </form>
       </div>  
     </div>
-    <div class="mb-4" style="border: 1px solid; border-color: #ccc; border-radius: 20px;">
+
+    <div style="width: 25vw; height: 5vh; margin: auto;">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="text-center" style="color: red">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <div class="mt-1 mb-4" style="border: 1px solid; border-color: #ccc; border-radius: 20px;">
       <h3 class="mt-4" style="text-align: center;">My Upcoming Activities</h3>
       {% for activity, tags in activities_tags %}
         {% include "../cards/activity_card.html" with activity=activity tags=tags %}

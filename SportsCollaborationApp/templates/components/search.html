@@ -3,15 +3,26 @@
 {% block search %}
 
 <div class="container" style="min-height: 88vh;">
-	<p>{{search_str}}</p>
-	<!--
-  <div class="input-group h-100">
-    <input type="text" class="form-control" style="width: 20vw;" placeholder="Search Activities/Sports" aria-label="Search">
-    <div class="input-group-append">
-			<button class="btn btn-secondary text-decoration-none" style="width: 4vw;" type="button"><i class="fa fa-search"></i></button>
+  <div class="pt-4 pb-1">
+    <div class="mt-1 mb-4" style="border: 1px solid; border-color: #ccc; border-radius: 20px;">
+      <h3 class="mt-4" style="text-align: center;">Search Results</h3>
+
+        {% if exist %}
+        
+          {% for activity, tags in activities_tags %}
+            {% include "../cards/activity_card.html" with activity=activity tags=tags %}
+            {% block activity_card %}
+            {% endblock activity_card %}
+          {% endfor %}
+
+        {% else %}
+
+          <h6 class="mt-4" style="text-align: center;">No results found!</h6>
+
+        {% endif %}
+      <div class="pb-4"></div>
     </div>
-	</div>
-	-->
+  </div>
 </div>
 
 {% endblock search %}

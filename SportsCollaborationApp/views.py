@@ -116,7 +116,7 @@ def mainPage(request):
         else:
             messages.error(request, "Search field can not be empty!")
 
-    return render(request, 'pages/MainPage.html', {'activities_tags': zip(activities, tags_list)})
+    return render(request, 'pages/MainPage.html', {'activities_tags': zip(activities, tags_list), 'exist': len(activities) != 0})
 
 @login_required(login_url='login')
 def profilePage(request, username):
@@ -142,34 +142,61 @@ def settingsPage(request):
 
 @login_required(login_url='login')
 def searchPage(request, search_str):
-    
-    all_activities = Activity.objects.all()
-    all_tags = Tag.objects.all()
-    activities = []
-    tags_list = []
-    for i in all_activities:
-        if i.status != '3' and (search_str.lower() in i.title.lower() or search_str.lower() in i.siteUser.name.lower()):
-            curr_tags = Tag.objects.filter(activity=i)
-            curr_tags_strings_list = []
-            for j in curr_tags:
-                curr_tags_strings_list.append(j.descriptiveString)
-            curr_tags_strings_list.sort()
-            activities.append(i)
-            tags_list.append(curr_tags_strings_list)
-    for i in all_tags:
-        if i.activity not in activities and i.activity.status != 3 and search_str.lower() in i.activity.title.lower():
-            curr_tags = Tag.objects.filter(activity=i.activity)
-            curr_tags_strings_list = []
-            for j in curr_tags:
-                curr_tags_strings_list.append(j.descriptiveString)
-            curr_tags_strings_list.sort()
-            activities.append(i.activity)
-            tags_list.append(curr_tags_strings_list)
 
-    return render(request, 'pages/SearchPage.html', {'activities_tags': zip(activities, tags_list), 'exist': len(activities) != 0}) # results
+	all_activities = list(Activity.objects.all())
+	all_activities.sort(key = lambda x : x.title)
+	all_tags = Tag.objects.all()
+	activities = []
+	tags_list = []
+	if search_str[0] != "#":
+		for i in all_activities:
+			if i.status != '3' and (search_str.lower() in i.title.lower() or search_str.lower() in i.siteUser.name.lower()):
+				curr_tags = Tag.objects.filter(activity=i)
+				curr_tags_strings_list = []
+				for j in curr_tags:
+					curr_tags_strings_list.append(j.descriptiveString)
+				curr_tags_strings_list.sort()
+				activities.append(i)
+				tags_list.append(curr_tags_strings_list)
+	else:
+		for i in all_tags:
+			if i.activity not in activities and i.activity.status != 3 and search_str.lower() in i.descriptiveString.lower():
+				curr_tags = Tag.objects.filter(activity=i.activity)
+				curr_tags_strings_list = []
+				for j in curr_tags:
+					curr_tags_strings_list.append(j.descriptiveString)
+				curr_tags_strings_list.sort()
+				activities.append(i.activity)
+				tags_list.append(curr_tags_strings_list)
+
+	return render(request, 'pages/SearchPage.html', {'activities_tags': zip(activities, tags_list), 'exist': len(activities) != 0})
 
 @login_required(login_url='login')
 def activityPage(request, id):
-    activity = Activity.objects.get(id=id)
-    siteUser = SiteUser.objects.get(user=activity.siteUser.user)
-    return render(request, 'pages/ActivityPage.html', {'activity': activity, 'siteUser': siteUser})
+	siteUser = SiteUser.objects.get(user=request.user)
+	activity = Activity.objects.get(id=id)
+	tags = Tag.objects.filter(activity=activity)
+	participants = ParticipantOfActivity.objects.filter(activity=activity)
+	joined = False
+	for i in list(participants):
+		if i.siteUser == siteUser:
+			joined = True
+			break
+	return render(request, 'pages/ActivityPage.html', {'activity': activity, 'tags': tags, 'joined': joined})
+
+@login_required(login_url='login')
+def participateActivity(request, id):
+	activity = Activity.objects.get(id=id)
+	if (activity.currentUsers == activity.maxUsers):
+		return redirect('activity', id)
+	siteUser = SiteUser.objects.get(user=request.user)
+	participants = ParticipantOfActivity.objects.filter(activity=activity, siteUser=siteUser)
+	if len(participants) == 1:
+		return redirect('activity', id)
+	newParticipant = ParticipantOfActivity(siteUser=siteUser, activity=activity)
+	activity.currentUsers += 1
+	if activity.currentUsers == activity.maxUsers:
+		activity.status = '2'
+	newParticipant.save()
+	activity.save()
+	return redirect('activity', id)

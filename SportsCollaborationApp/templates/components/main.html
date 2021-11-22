@@ -26,11 +26,20 @@
 
     <div class="mt-1 mb-4" style="border: 1px solid; border-color: #ccc; border-radius: 20px;">
       <h3 class="mt-4" style="text-align: center;">My Upcoming Activities</h3>
-      {% for activity, tags in activities_tags %}
-        {% include "../cards/activity_card.html" with activity=activity tags=tags %}
-        {% block activity_card %}
-        {% endblock activity_card %}
-      {% endfor %}
+        {% if exist %}
+      
+          {% for activity, tags in activities_tags %}
+            {% include "../cards/activity_card.html" with activity=activity tags=tags %}
+            {% block activity_card %}
+            {% endblock activity_card %}
+          {% endfor %}
+
+        {% else %}
+
+          <h6 class="mt-4" style="text-align: center;">No upcoming activities!</h6>
+
+        {% endif %}
+
       <div class="pb-4"></div>
     </div>
     <!--

@@ -10,4 +10,5 @@ urlpatterns = [
   path('settings/', views.settingsPage, name="settings"),
   path('search/<str:search_str>', views.searchPage, name="search"),
   path('activity/<str:id>', views.activityPage, name="activity"),
+  path('participateActivity/<str:id>', views.participateActivity, name="participate_activity"),
 ]

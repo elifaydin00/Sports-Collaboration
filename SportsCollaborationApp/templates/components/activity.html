@@ -15,16 +15,38 @@
               <br>
               <p>{{activity.description}}</p>
               <p>Participants: {{activity.currentUsers}} / {{activity.maxUsers}}</p>
-              {% if joined %}
-                <p style="color: indigo; margin-bottom: -0.25vh;">You are already joined this activity!</p>
-              {% else %}
+              {% if owned %}
                 {% if activity.status == '1' %}
-                  <p style="color: green;">Activity is available to join!</p>
-                  <button class="join" name="join" onclick="location.href='{% url "participate_activity" activity.id %}'">Join</button>
+                  <p style="color: green; margin-bottom: -0.25vh;">Activity is available to join!</p>
+                {% elif activity.status == '2' %}
+                  <p>After the activity is done, click the button below.</p>
+                  <button class="join" onclick="location.href='{% url "finish_activity" activity.id %}'">Finish the Activity</button>
+                {% elif activity.status == '3' %}
+                  <p style="margin-bottom: -0.25vh;">Activity ended!</p>
+                {% endif %}
+              {% else %}
+                {% if joined %}
+                  {% if activity.status == '1' %}
+                    <p style="margin-bottom: -0.25vh;">You are already joined this activity!</p>
+                  {% elif activity.status == '2' %}
+                    <p style="margin-bottom: -0.25vh;">Activity is in progress!</p>
+                  {% elif activity.status == '3' %}
+                    <p style="margin-bottom: -0.25vh;">Activity ended!</p>
+                  {% endif %}
                 {% else %}
-                  <p style="color: red; margin-bottom: -0.25vh;">Activity is not available to join!</p>
+                  {% if activity.status == '1' %}
+                    <p style="color: green;">Activity is available to join!</p>
+                    <button class="join" onclick="location.href='{% url "participate_activity" activity.id %}'">Join to Activity</button>
+                  {% elif activity.status == '2' %}
+                    <p style="margin-bottom: -0.25vh;">Activity is in progress!</p>
+                  {% elif activity.status == '3' %}
+                    <p style="margin-bottom: -0.25vh;">Activity ended!</p>
+                  {% endif %}
                 {% endif %}
               {% endif %}
+
+
+
             </div>
           </div>
         </div>

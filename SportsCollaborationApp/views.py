@@ -138,7 +138,7 @@ def profilePage(request, username):
 
 @login_required(login_url='login')
 def settingsPage(request):
-    return render(request, 'pages/SettingsPage.html')
+  return render(request, 'pages/SettingsPage.html')
 
 @login_required(login_url='login')
 def searchPage(request, search_str):
@@ -182,7 +182,7 @@ def activityPage(request, id):
 		if i.siteUser == siteUser:
 			joined = True
 			break
-	return render(request, 'pages/ActivityPage.html', {'activity': activity, 'tags': tags, 'joined': joined})
+	return render(request, 'pages/ActivityPage.html', {'activity': activity, 'tags': tags, 'joined': joined, 'owned': request.user == activity.siteUser.user})
 
 @login_required(login_url='login')
 def participateActivity(request, id):
@@ -200,3 +200,16 @@ def participateActivity(request, id):
 	newParticipant.save()
 	activity.save()
 	return redirect('activity', id)
+
+@login_required(login_url='login')
+def finishActivity(request, id):
+	activity = Activity.objects.get(id=id) 
+	if (activity.siteUser.user != request.user):
+		return redirect('activity', id)
+	activity.status = '3'
+	activity.save()
+	return redirect('activity', id)
+
+@login_required(login_url='login')
+def postActivityPage(request):
+  return render(request, 'pages/PostActivityPage.html')

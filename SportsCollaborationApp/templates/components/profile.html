@@ -3,10 +3,43 @@
 {% block profile %}
 
 <div style="min-height: 88vh;">
-  <div class="container">
-    <p>{{ siteUser.email }}</p>
-    <p>{{ itself }}</p>
-    <p>Past Activities</p>
+  <div class="info-container">
+    <div style="margin-top:5%" class="settings-container">
+    
+    </div>
+  <div style="width: 50vw; height: 30vh; margin: auto;">
+    <div class="profile-info">
+
+      <div class= "rightbox" style="float:left;width:25%;">
+        <img src="{% static 'img/profimg.jpg' %}" class="pp" alt="ProPic" style= "width: 100%; height: 100%; border-radius: 50%">
+      </div>
+      <div class= "leftbox" style="float:left; margin-top:5%; margin-left: 5%">
+        <h2 class="paragraph" style="font-size:48px">Ali Arda Girgin</h2>
+        <p style="margin-top:10%; margin-left:30%">
+          <img class="starimg" style="  width: 24px;height: 24px;" src={% static "img/star-empty.jpg" %}>
+          <img class="starimg" style="  width: 24px;height: 24px;" src={% static "img/star-empty.jpg" %}>
+          <img class="starimg" style="  width: 24px;height: 24px;" src={% static "img/star-empty.jpg" %}>
+          <img class="starimg" style="  width: 24px;height: 24px;" src={% static "img/star-empty.jpg" %}>
+          <img class="starimg" style="  width: 24px;height: 24px;" src={% static "img/star-empty.jpg" %}>
+        </p>
+      </div>
+      <div class= "leftboxage" style="float:left;margin-left: 5%;margin-top:5%;">
+        <h2 class="paragraph" style="color:grey;font-size:48px">19</h2>
+      </div>
+      <div class= "leftboxbutton" style="float:left;margin-left: 5%;margin-top:6%;">
+        <button type="button" class="btn btn-light"><i class="fa fa-gear" style="font-size:24px"></i></button>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  <hr style="height: 12px;border: 0;box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);margin:10px;">
+  <p class="paragraph" style="  font-size: 18px;font-weight: bold;text-align: center;">My Activity History</p>
+  <hr style="height: 12px;border: 0;box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);margin:10px;">
+
+  <div class="activity-container" style= "width: 50vw;  margin: auto;">
+    
     {% for activity, tags in activities_tags %}
       {% include "../cards/activity_card.html" with activity=activity tags=tags %}
       {% block activity_card %}
@@ -14,5 +47,5 @@
     {% endfor %}
   </div>
 </div>
-
+<hr>
 {% endblock profile %}

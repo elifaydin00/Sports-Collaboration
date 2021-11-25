@@ -122,17 +122,17 @@ def mainPage(request):
 def profilePage(request, username):
     user = User.objects.get(username=username)
     siteUser = SiteUser.objects.get(user=user)
-    participated_activities = ParticipantOfActivity.objects.filter(siteUser__user=request.user)
+    participated_activities = Activity.objects.filter(siteUser=siteUser)
     activities = []
     tags_list = []
     for i in participated_activities:
-        if i.activity.status == '3':
-            curr_tags = Tag.objects.filter(activity=i.activity)
+        if i.status == '3':
+            curr_tags = Tag.objects.filter(activity=i)
             curr_tags_strings_list = []
             for j in curr_tags:
                 curr_tags_strings_list.append(j.descriptiveString)
             curr_tags_strings_list.sort()
-            activities.append(i.activity)
+            activities.append(i)
             tags_list.append(curr_tags_strings_list)
     return render(request, 'pages/ProfilePage.html', {'siteUser': siteUser, 'itself': request.user == user, 'activities_tags': zip(activities, tags_list)})
 

@@ -3,7 +3,62 @@
 {% block settings %}
 
 <div style="min-height: 88vh;">
-  <p>Settings</p>
+  <div style="margin-top:20px">
+    <hr style="height: 12px; border: 0; box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);">
+    <p style="font-size: 22px; text-align: center;">Settings</p>
+    <hr style="height: 12px; border: 0; box-shadow: inset 0 -12px 12px -12px rgba(0, 0, 0, 0.5);">
+    <div class="settings-container" stlyle="height: 30vh; padding-top: 5vh; margin-bottom: 5vh; margin-left: auto; margin-right: auto;">
+    </div>
+  </div>
+  <div class="container">
+    <div class="mid-box" style="height: 50vh; padding-top: 5vh; margin-bottom: 5vh; margin-left: auto; margin-right: auto;">
+      <form>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="uname">Name</label>
+            <input  class="form-control" id="uname" placeholder="{{siteUser.name}}" disabled>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="uname">Surname</label>
+            <input class="form-control" id="surname" placeholder="{{siteUser.name}}" disabled>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="location">Location</label>
+            <input class="form-control" id="location" placeholder="{{siteUser.location}}">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="age">Age</label>
+            <input  class="form-control" id="age" placeholder="{{siteUser.age}}">
+          </div>
+        </div>
+        <div style="margin-top:3%">
+
+          <div class="row justify-content-center">
+            <div class="col">
+              <button type="button" class="btn btn-secondary btn-block">Freeze Your Account</button>
+            </div>
+            <div class="col">
+              <button type="button" class="btn btn-secondary btn-block">Change Your Password</button>
+            </div>
+          </div>
+              
+              
+        </div>
+
+          <div style="margin-top:3%;margin-left:25%;margin-right:25%">
+            <div class="col-md-12 text-center">
+              <button type="submit" class="btn btn-primary btn-block">Apply Changes</button>
+            </div>             
+          </div>
+        </div>
+
+
+    </div>
+      </form>
+    </div>
+  </div>
 </div>
 
 {% endblock settings %}

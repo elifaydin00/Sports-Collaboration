@@ -2,10 +2,37 @@
 
 {% block post_activity %}
 
-<div style="min-height: 88vh;">
-
-
-
+<div class="container pt-2" style="min-height: 84vh;">
+  <div class="pt-2" style="border: 1px solid; border-color: #ccc; border-radius: 20px;">
+    <h3 class="pt-4 pl-5" style="text-align: left;">Post New Activity</h3>
+    <form action="" method="post"> {% csrf_token %}
+      <br>
+      <h5 class="pl-5 ml-2">Activity Title</h5>
+      <input style="width: 25vw;" class="ml-5 px-2 py-1" type="text" name="title" placeholder="Enter activity title" maxlength="100">
+      <br>
+      <br>
+      <h5 class="pl-5 ml-2">Activity Description</h5>
+      <textarea class="ml-5 px-2 pt-1" style="width: 25vw; height: 20vh; resize: none;" type="text" name="description" placeholder="Enter activity description" maxlength="500"></textarea>
+      <br>
+      <br>
+      <h5 class="pl-5 ml-2">Maximum Participants</h5>
+      <input class="ml-5 px-2" style="width: 15vw; py-1" type="number" name="max_users" placeholder="Enter a number">
+      <br>
+      <br>
+      <h5 class="pl-5 ml-2">Tags (Leave blanks between tags)</h5>
+      <input style="width: 20vw;" class="ml-5 px-2 py-1" type="text" name="tags" placeholder="Enter tags">
+      <br>
+      <br>
+      <input type="submit" style="text-decoration: none;" class="ml-5 btn btn-secondary" value="Post the activity">
+      {% if messages %}
+        {% for message in messages %}
+          <p class="ml-5 text-danger" style="padding-top: 0.75vh;">{{ message }}</p>
+        {% endfor %}
+      {% else %}
+        <div style="margin-bottom: 5vh;"></div>
+      {% endif %}
+    </form>
+  </div>
 </div>
 
 {% endblock post_activity %}

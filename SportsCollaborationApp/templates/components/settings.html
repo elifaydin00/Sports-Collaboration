@@ -2,59 +2,80 @@
 
 {% block settings %}
 
-<div style="min-height: 88vh;">
-  <div style="margin-top:20px">
-    <hr style="height: 12px; border: 0; box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);">
-    <p style="font-size: 22px; text-align: center;">Settings</p>
-    <hr style="height: 12px; border: 0; box-shadow: inset 0 -12px 12px -12px rgba(0, 0, 0, 0.5);">
-    <div class="settings-container" stlyle="height: 30vh; padding-top: 5vh; margin-bottom: 5vh; margin-left: auto; margin-right: auto;">
-    </div>
-  </div>
-  <div class="container">
-    <div class="mid-box" style="height: 50vh; padding-top: 5vh; margin-bottom: 5vh; margin-left: auto; margin-right: auto;">
-      <form>
+<div style="min-height: 84vh;">
+  <div style="padding-top: 2vh;"></div>
+  <hr style="height: 12px; border: 0; box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5); margin: 0;">
+  <p style="font-size: 22px; text-align: center; margin: 0;">Settings</p>
+  <hr style="height: 12px; border: 0; box-shadow: inset 0 -12px 12px -12px rgba(0, 0, 0, 0.5); margin: 0;">
+  <div class="container" style="margin-left: auto; margin-right: auto;">
+    <div class="mid-box" style="padding-top: 2vh; margin-left: auto; margin-right: auto;">
+      <form action="" method="POST"> {% csrf_token %}
         <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="uname">Name</label>
-            <input  class="form-control" id="uname" placeholder="{{siteUser.name}}" disabled>
+          <div class="form-group col-2"></div>
+          <div class="form-group col-4">
+            <label class="ml-1" for="firstname">First Name</label>
+            <input class="form-control" id="firstname" placeholder="{{firstname}}" disabled>
           </div>
-          <div class="form-group col-md-6">
-            <label for="uname">Surname</label>
-            <input class="form-control" id="surname" placeholder="{{siteUser.name}}" disabled>
+          <div class="form-group col-4">
+            <label class="ml-1" for="lastname">Last Name</label>
+            <input class="form-control" id="lastname" placeholder="{{lastname}}" disabled>
           </div>
         </div>
         <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="location">Location</label>
-            <input class="form-control" id="location" placeholder="{{siteUser.location}}">
+          <div class="form-group col-2"></div>
+          <div class="form-group col-4">
+            <label class="ml-1" for="location">Location</label>
+            <input class="form-control" name="location" placeholder="{{siteUser.location}}">
           </div>
-          <div class="form-group col-md-6">
-            <label for="age">Age</label>
-            <input  class="form-control" id="age" placeholder="{{siteUser.age}}">
+          <div class="form-group col-4">
+            <label class="ml-1" for="age">Age</label>
+            <input class="form-control" type="number" name="age" placeholder="{{siteUser.age}}">
           </div>
         </div>
-         <div class="form-check form-switch">
-           <input  class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
-            <label  class="form-check-label" for="flexSwitchCheckChecked">Freeze Your Account.</label>
+        <div class="form-row">
+          <div class="form-group col-4" style="margin-top: 2%;"></div>
+          <div class="form-group col-4" style="margin-top: 2%;">
+            <div class="row justify-content-center">
+              <div class="col">
+                <button class="btn btn-secondary btn-block text-decoration-none" type="submit">
+                  Apply Changes
+                </button>
               </div>
-        <div style="margin-top:2%">
+            </div>         
+          </div>
+        </div>
+      </form>
+      <div class="form-row">
+        <div class="form-group col-4" style="margin-top: 2%;"></div>
+        <div class="form-group col-4" style="margin-top: 2%;">
           <div class="row justify-content-center">
             <div class="col">
-              <button style="width:50%;" type="button" class="btn btn-secondary btn-block"><a href={% url 'change_password' %}>Change Your Password</button>
-            </div>
-          </div>         
-        </div>
-          <div style="margin-top:2%;margin-right:25%;">
-            <div class="row justify-content-center">
-            <div class="col">
-              <button style="width:50%" type="button" class="btn btn-primary btn-block">Apply Changes</button>
+              <button type="button" class="btn btn-secondary btn-block text-decoration-none" onclick="location.href='{% url "change_password" %}'">
+                Change Your Password
+              </button>
             </div>
           </div>              
-          </div>
         </div>
-
-    </div>
-      </form>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-4" style="margin-top: 2%;"></div>
+        <div class="form-group col-4" style="margin-top: 2%;">
+          <div class="row justify-content-center">
+            <div class="col">
+              <button type="button" class="btn btn-secondary btn-block text-decoration-none" onclick="location.href='{% url "freeze_account" %}'">
+                Freeze Account
+              </button>
+            </div>
+          </div>              
+        </div>
+      </div>
+      <div style="width: 25vw; height: 5vh; margin: auto;">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="text-center" style="color: red">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      </div>
     </div>
   </div>
 </div>

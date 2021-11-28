@@ -13,4 +13,6 @@ urlpatterns = [
   path('participateActivity/<str:id>/', views.participateActivity, name="participate_activity"),
   path('finishActivity/<str:id>/', views.finishActivity, name="finish_activity"),
   path('postActivity/', views.postActivityPage, name="post_activity"),
+  path('settings/changepassword/', views.changePassword, name="change_password"),
+  
 ]

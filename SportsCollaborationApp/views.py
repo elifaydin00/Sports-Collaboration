@@ -141,6 +141,10 @@ def settingsPage(request):
   return render(request, 'pages/SettingsPage.html')
 
 @login_required(login_url='login')
+def changePassword(request):
+  return render(request, 'pages/ChangePassword.html')
+
+@login_required(login_url='login')
 def searchPage(request, search_str):
 
 	all_activities = list(Activity.objects.all())

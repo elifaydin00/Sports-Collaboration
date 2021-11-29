@@ -138,10 +138,13 @@ def mainPage(request):
 def profilePage(request, username):
     user = User.objects.get(username=username)
     siteUser = SiteUser.objects.get(user=user)
-    participated_activities = Activity.objects.filter(siteUser=siteUser)
+    allActivities = []
+    participated_activities = ParticipantOfActivity.objects.filter(siteUser=siteUser)
+    for i in participated_activities:
+        allActivities.append(i.activity)
     activities = []
     tags_list = []
-    for i in participated_activities:
+    for i in allActivities:
         if i.status == '3':
             curr_tags = Tag.objects.filter(activity=i)
             curr_tags_strings_list = []

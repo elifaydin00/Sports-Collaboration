@@ -9,8 +9,8 @@
 
         {% if exist %}
         
-          {% for activity, tags in activities_tags %}
-            {% include "../cards/activity_card.html" with activity=activity tags=tags %}
+          {% for activity, tags, rating in activities_tags_ratings %}
+            {% include "../cards/activity_card.html" with activity=activity tags=tags rating=rating %}
             {% block activity_card %}
             {% endblock activity_card %}
           {% endfor %}

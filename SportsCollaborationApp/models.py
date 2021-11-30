@@ -14,12 +14,6 @@ class SiteUser(models.Model):
 	balance = models.FloatField()
 	frozenAccount = models.BooleanField(default=False)
 
-class Skill(models.Model):
-	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
-	siteUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
-	sport = models.CharField(max_length=100)
-	rating = models.CharField(max_length=25, choices=(('1', 1), ('2', 2), ('3', 3), ('4', 4), ('5', 5)))
-
 class Activity(models.Model):
 	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
 	siteUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
@@ -34,22 +28,22 @@ class Tag(models.Model):
 	activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
 	descriptiveString = models.CharField(max_length=50)
 
-class ApplicantOfActivity(models.Model):
-	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
-	siteUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
-	activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
-
 class ParticipantOfActivity(models.Model):
 	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
 	siteUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
 	activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
 
-class ActivityReview(models.Model):
+class ActivityRating(models.Model):
 	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
 	attendantUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
 	activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
-	title = models.CharField(max_length=100)
-	description = models.TextField(max_length=500)
+	rating = models.CharField(max_length=25, choices=(('1', 1), ('2', 2), ('3', 3), ('4', 4), ('5', 5)))
+
+"""
+class Skill(models.Model):
+	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+	siteUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
+	sport = models.CharField(max_length=100)
 	rating = models.CharField(max_length=25, choices=(('1', 1), ('2', 2), ('3', 3), ('4', 4), ('5', 5)))
 
 class UserSkillReview(models.Model):
@@ -60,6 +54,7 @@ class UserSkillReview(models.Model):
 	title = models.CharField(max_length=100)
 	description = models.TextField(max_length=500)
 	rating = models.CharField(max_length=25, choices=(('1', 1), ('2', 2), ('3', 3), ('4', 4), ('5', 5)))
+"""
 
 class Tutor(models.Model):
 	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
@@ -68,18 +63,13 @@ class Tutor(models.Model):
 	description = models.TextField(max_length=500)
 	tutoringStatus = models.CharField(max_length=25, choices=(('1', 'Available'), ('2', 'Not available')))
 
-class ApplicantOfTutorship(models.Model):
-	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
-	siteUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
-	tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
-
 class TutorshipModel(models.Model):
 	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)	
 	siteUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
 	tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
 	tutorshipStatus = models.CharField(max_length=25, choices=(('1', 'In Progress'), ('2', 'Completed')))
 
-class TutorshipReview(models.Model):
+class TutorRating(models.Model):
 	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)	
 	siteUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
 	tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
@@ -87,20 +77,34 @@ class TutorshipReview(models.Model):
 	description = models.TextField(max_length=500)
 	rating = models.CharField(max_length=25, choices=(('1', 1), ('2', 2), ('3', 3), ('4', 4), ('5', 5)))
 
-class Messages(models.Model):
+class Message(models.Model):
 	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)	
 	sourceUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE, related_name='sourceUser')
 	targetUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE, related_name='targetUser')
 
 class DirectMessage(models.Model):
 	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
-	message = models.ForeignKey(Messages, on_delete=models.CASCADE)
+	message = models.ForeignKey(Message, on_delete=models.CASCADE)
 	text = models.TextField(max_length=500)
 	time = models.TimeField()
 
-class Notifications(models.Model):
-	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)	
-	siteUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
-	title = models.CharField(max_length=100)
-	description = models.TextField(max_length=500)
-	notificationStatus = models.CharField(max_length=25, choices=(('1', 'Sent Only'), ('2', 'Sent & Received')))
+class Notification(models.Model):
+  id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+  senderSiteUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE, related_name='senderUser')
+  receiverSiteUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE, related_name='receiverUser')
+  title = models.CharField(max_length=100)
+  description = models.TextField(max_length=500)
+  pointerId = models.CharField(max_length=50, null=True, blank=True)
+  notificationType = models.CharField(max_length=25, choices=(('1', 'Acknowledgement'), ('2', 'Request'), ('3', 'Rating')))
+
+class ApplicantOfActivity(models.Model):
+  id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+  siteUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
+  activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
+  notification = models.ForeignKey(Notification, on_delete=models.CASCADE)
+
+class ApplicantOfTutor(models.Model):
+  id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+  siteUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
+  tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
+  notification = models.ForeignKey(Notification, on_delete=models.CASCADE)

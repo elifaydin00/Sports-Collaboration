@@ -10,31 +10,26 @@
       </div>
       <div style="float: left; margin-top: 5vh; margin-left: 4.5vw;">
         <h2 class="paragraph" style="font-size: 44px;">{{siteUser.name}}</h2>
-        <p style="margin-top: 0.5vh; font-size: 16px;">{{siteUser.age}} years old, living in {{siteUser.location}}</p>
-        <p style="font-size: 24px; display: inline-block; vertical-align: middle;">Average Rating:</p>
-        <img style="margin-top: -1.75vh; margin-left: 1vw; width: 24px; height: 24px;" src={% static "img/star.jpg" %}>
-        <img style="margin-top: -1.75vh; width: 24px; height: 24px;" src={% static "img/star.jpg" %}>
-        <img style="margin-top: -1.75vh; width: 24px; height: 24px;" src={% static "img/star.jpg" %}>
-        <img style="margin-top: -1.75vh; width: 24px; height: 24px;" src={% static "img/star.jpg" %}>
-        <img style="margin-top: -1.75vh; width: 24px; height: 24px;" src={% static "img/star.jpg" %}>
+        <p style="margin-top: 0.5vh; margin-bottom: 0.5vh; font-size: 16px;">{{siteUser.age}} years old, living in {{siteUser.location}}</p>
+        <p style="margin-top: 0.5vh; margin-bottom: 1.5vh; font-size: 16px;">Participated {{count}} activities</p>
+        {% if itself %}
+          <button style="width: 45%" class="mt-1 btn btn-secondary btn-block text-decoration-none" type="button" onclick="location.href='{% url "settings" %}'">
+            Settings <i class="fas fa-cog" style="font-size: 16px; margin-left: 0.25vw;"></i>
+          </button>
+        {% else %}
+          <button style="width: 45%" class="mt-1 btn btn-secondary btn-block text-decoration-none" type="button">
+            Send Message <i class="fas fa-envelope" style="font-size: 16px; margin-left: 0.25vw;"></i>
+          </button>
+        {% endif %}
       </div>
-      {% if itself %}
-        <div style="float: left; margin-left: 1vw; margin-top: 5vh; padding: 1vh; 1vw;">
-          <button type="button" class="btn" onclick="location.href='{% url "settings" %}'"><i class="fas fa-cog" style="font-size: 24px"></i></button>
-        </div>
-      {% else %}
-        <div style="float: left; margin-left: 1vw; margin-top: 5vh; padding: 1vh; 1vw;">
-          <button type="button" class="btn"><i class="fas fa-envelope" style="font-size: 24px"></i></button>
-        </div>
-      {% endif %}
     </div>
   </div>
   <hr style="height: 12px; border: 0; box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);">
   <p style="font-size: 22px; text-align: center;">Activity History</p>
   <hr style="height: 12px; border: 0; box-shadow: inset 0 -12px 12px -12px rgba(0, 0, 0, 0.5);">
   <div class="container">
-    {% for activity, tags in activities_tags %}
-      {% include "../cards/activity_card.html" with activity=activity tags=tags %}
+    {% for activity, tags, rating in activities_tags_ratings %}
+      {% include "../cards/activity_card.html" with activity=activity tags=tags rating=rating %}
       {% block activity_card %}
       {% endblock activity_card %}
     {% endfor %}

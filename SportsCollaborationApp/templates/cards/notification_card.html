@@ -1,0 +1,100 @@
+{% load static %}
+
+{% block notification_card %}
+
+<div class="card" style="margin: 2.5vh 2.5vw; border: 1px solid; border-color: #ccc; border-radius: 10px;">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-6">
+        <h5 style="margin-left: 0.25vw;" class="card-title">{{notification.title}}</h5>
+      </div>
+      <div class="col-5"></div>
+      <div class="col-1">
+        <button style="width: 2.5vw;" class="btn btn-white btn-block text-decoration-none" type="button" onclick="location.href='{% url "delete_notification" notification.id %}'">
+          <i class="fas fa-times" style="color: gray; font-size: 16px;"></i>
+        </button>
+      </div>
+    </div>
+    <p style="margin-left: 0.25vw;" class="card-text">{{notification.description}}</p>
+    {% if notification.notificationType == '2' %}
+      <div class="row">
+        <div class="col-2">
+          <button class="mt-1 btn btn-success btn-block text-decoration-none" type="button" onclick="location.href='{% url "accept_activity" notification.id %}'">
+            Accept
+          </button>
+        </div>
+        <div class="col-10"></div>
+      </div>
+    {% elif notification.notificationType == '3' %}
+      <div class="row" style="margin-left: -0.75vw; margin-bottom: 1vh;">
+        <div class="col-1" style="text-align: center;">
+          <input type="radio" name="rating" value="1">
+        </div>
+        <div class="col-1" style="text-align: center;">
+          <input type="radio" name="rating" value="2">
+        </div>
+        <div class="col-1" style="text-align: center;">
+          <input type="radio" name="rating" value="3">
+        </div>
+        <div class="col-1" style="text-align: center;">
+          <input type="radio" name="rating" value="4">
+        </div>
+        <div class="col-1" style="text-align: center;">
+          <input type="radio" name="rating" value="5">
+        </div>
+        <div class="col-7"></div>
+      </div>
+      <div class="row" style="margin-left: -0.75vw; margin-bottom: 1vh;">
+        <div class="col-1" style="text-align: center;">
+          1
+        </div>
+        <div class="col-1" style="text-align: center;">
+          2
+        </div>
+        <div class="col-1" style="text-align: center;">
+          3
+        </div>
+        <div class="col-1" style="text-align: center;">
+          4
+        </div>
+        <div class="col-1" style="text-align: center;">
+          5
+        </div>
+        <div class="col-7"></div>
+      </div>
+      <div class="row">
+        <div class="col-2">
+          <button class="mt-1 btn btn-secondary btn-block text-decoration-none" type="button" id="rate" data-url="{% url 'rate_activity' notification.id 123 %}">
+            Rate
+          </button>
+        </div>
+        <div class="col-10"></div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+
+$(document).ready(function(){
+    $("button").click(function(){
+        var rbs = document.querySelectorAll('input[name="rating"]');
+        let selectedValue;
+        for (const rb of rbs) {
+            if (rb.checked) {
+                selectedValue = rb.value;
+                break;
+            }
+        }
+        if (selectedValue == 1 || selectedValue == 2 || selectedValue == 3 || selectedValue == 4 || selectedValue == 5)
+        {
+          
+          var url = $("#rate").attr("data-url");
+          document.location.href = url.replace('123', selectedValue);
+        }
+    });
+});
+
+</script>
+
+{% endblock notification_card %}

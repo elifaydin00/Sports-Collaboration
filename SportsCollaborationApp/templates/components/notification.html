@@ -1,0 +1,29 @@
+{% load static %}
+
+{% block notification %}
+
+<div class="container" style="min-height: 84vh;">
+  <div class="pt-4 pb-1">
+    <div class="mt-1 mb-4" style="border: 1px solid; border-color: #ccc; border-radius: 20px;">
+      <h3 class="mt-4" style="text-align: center;">My Notifications</h3>
+
+      {% if exist %}
+        
+        {% for notification in notifications %}
+          {% include "../cards/notification_card.html" with notification=notification %}
+          {% block notification_card %}
+          {% endblock notification_card %}
+        {% endfor %}
+
+      {% else %}
+
+        <h6 class="mt-4" style="text-align: center;">No current notifications!</h6>
+
+      {% endif %}
+
+      <div class="pb-4"></div>
+    </div>
+  </div>
+</div>
+
+{% endblock notification %}

@@ -22,25 +22,365 @@
                   <p>After the activity is done, click the button below.</p>
                   <button class="join" onclick="location.href='{% url "finish_activity" activity.id %}'">Finish the Activity</button>
                 {% elif activity.status == '3' %}
-                  <p style="margin-bottom: -0.25vh;">Activity ended!</p>
+                  {% if rating != "Not finished yet" %}
+                    {% if rating == "No ratings" %}
+                      <p>Average Rating:
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                      </p>
+                    {% elif rating >= 1.00 and rating <= 1.25 %}
+                      <p>Average Rating:
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                      </p>
+                    {% elif rating > 1.25 and rating <= 1.75 %}
+                      <p>Average Rating:
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                      </p>
+                    {% elif rating > 1.75 and rating <= 2.25 %}
+                      <p>Average Rating:
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                      </p>
+                    {% elif rating > 2.25 and rating <= 2.75 %}
+                      <p>Average Rating:
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                      </p>
+                    {% elif rating > 2.75 and rating <= 3.25 %}
+                      <p>Average Rating:
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                      </p>
+                    {% elif rating > 3.25 and rating <= 3.75 %}
+                      <p>Average Rating:
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <i class="far fa-star"></i>
+                      </p>
+                    {% elif rating > 3.75 and rating <= 4.25 %}
+                      <p>Average Rating:
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                      </p>
+                    {% elif rating > 4.25 and rating <= 4.75 %}
+                      <p>Average Rating:
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                      </p>
+                    {% elif rating > 4.75 and rating <= 5.00 %}
+                      <p>Average Rating:
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                      </p>
+                    {% endif %}
+                    <p style="margin-bottom: 0.25vh;">Activity ended!</p>
+                  {% endif %}
                 {% endif %}
               {% else %}
-                {% if joined %}
+                {% if joinStatus == 0 %}
                   {% if activity.status == '1' %}
-                    <p style="margin-bottom: -0.25vh;">You are already joined this activity!</p>
+                    <p style="margin-bottom: -0.25vh;">You have already requested to join this activity!</p>
                   {% elif activity.status == '2' %}
                     <p style="margin-bottom: -0.25vh;">Activity is in progress!</p>
                   {% elif activity.status == '3' %}
-                    <p style="margin-bottom: -0.25vh;">Activity ended!</p>
+                    {% if rating != "Not finished yet" %}
+                      {% if rating == "No ratings" %}
+                        <p>Average Rating:
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating >= 1.00 and rating <= 1.25 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating > 1.25 and rating <= 1.75 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star-half-alt"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating > 1.75 and rating <= 2.25 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating > 2.25 and rating <= 2.75 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star-half-alt"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating > 2.75 and rating <= 3.25 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating > 3.25 and rating <= 3.75 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star-half-alt"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating > 3.75 and rating <= 4.25 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating > 4.25 and rating <= 4.75 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star-half-alt"></i>
+                        </p>
+                      {% elif rating > 4.75 and rating <= 5.00 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                        </p>
+                      {% endif %}
+                    {% endif %}
+                    <p style="margin-bottom: 0.25vh;">Activity ended!</p>
+                  {% endif %}
+                {% elif joinStatus == 1 %}
+                  {% if activity.status == '1' %}
+                    <p style="margin-bottom: -0.25vh;">You have already joined this activity!</p>
+                  {% elif activity.status == '2' %}
+                    <p style="margin-bottom: -0.25vh;">Activity is in progress!</p>
+                  {% elif activity.status == '3' %}
+                    {% if rating != "Not finished yet" %}
+                      {% if rating == "No ratings" %}
+                        <p>Average Rating:
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating >= 1.00 and rating <= 1.25 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating > 1.25 and rating <= 1.75 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star-half-alt"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating > 1.75 and rating <= 2.25 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating > 2.25 and rating <= 2.75 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star-half-alt"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating > 2.75 and rating <= 3.25 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating > 3.25 and rating <= 3.75 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star-half-alt"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating > 3.75 and rating <= 4.25 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating > 4.25 and rating <= 4.75 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star-half-alt"></i>
+                        </p>
+                      {% elif rating > 4.75 and rating <= 5.00 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                        </p>
+                      {% endif %}
+                    {% endif %}
+                    <p style="margin-bottom: 0.25vh;">Activity ended!</p>
                   {% endif %}
                 {% else %}
                   {% if activity.status == '1' %}
                     <p style="color: green;">Activity is available to join!</p>
-                    <button class="join" onclick="location.href='{% url "participate_activity" activity.id %}'">Join to Activity</button>
+                    <button class="join" onclick="location.href='{% url "request_activity" activity.id %}'">Join to Activity</button>
                   {% elif activity.status == '2' %}
                     <p style="margin-bottom: -0.25vh;">Activity is in progress!</p>
                   {% elif activity.status == '3' %}
-                    <p style="margin-bottom: -0.25vh;">Activity ended!</p>
+                    {% if rating != "Not finished yet" %}
+                      {% if rating == "No ratings" %}
+                        <p>Average Rating:
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating >= 1.00 and rating <= 1.25 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating > 1.25 and rating <= 1.75 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star-half-alt"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating > 1.75 and rating <= 2.25 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating > 2.25 and rating <= 2.75 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star-half-alt"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating > 2.75 and rating <= 3.25 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="far fa-star"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating > 3.25 and rating <= 3.75 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star-half-alt"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating > 3.75 and rating <= 4.25 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="far fa-star"></i>
+                        </p>
+                      {% elif rating > 4.25 and rating <= 4.75 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star-half-alt"></i>
+                        </p>
+                      {% elif rating > 4.75 and rating <= 5.00 %}
+                        <p>Average Rating:
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                        </p>
+                      {% endif %}
+                    {% endif %}
+                    <p style="margin-bottom: 0.25vh;">Activity ended!</p>
                   {% endif %}
                 {% endif %}
               {% endif %}

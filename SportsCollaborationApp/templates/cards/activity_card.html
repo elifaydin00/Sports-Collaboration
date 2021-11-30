@@ -9,6 +9,89 @@
       <h5>Title: {{activity.title}}</h5>
       <h6>Description: {{activity.description}}</h6>
       <h6>Attendants: {{activity.currentUsers}} / {{activity.maxUsers}}</h6>
+      {% if rating != "Not finished yet" %}
+        {% if rating == "No ratings" %}
+          <h6>Average Rating:
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+          </h6>
+        {% elif rating >= 1.00 and rating <= 1.25 %}
+          <h6>Average Rating:
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+          </h6>
+        {% elif rating > 1.25 and rating <= 1.75 %}
+          <h6>Average Rating:
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half-alt"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+          </h6>
+        {% elif rating > 1.75 and rating <= 2.25 %}
+          <h6>Average Rating:
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+          </h6>
+        {% elif rating > 2.25 and rating <= 2.75 %}
+          <h6>Average Rating:
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half-alt"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+          </h6>
+        {% elif rating > 2.75 and rating <= 3.25 %}
+          <h6>Average Rating:
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+          </h6>
+        {% elif rating > 3.25 and rating <= 3.75 %}
+          <h6>Average Rating:
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half-alt"></i>
+            <i class="far fa-star"></i>
+          </h6>
+        {% elif rating > 3.75 and rating <= 4.25 %}
+          <h6>Average Rating:
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+          </h6>
+        {% elif rating > 4.25 and rating <= 4.75 %}
+          <h6>Average Rating:
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half-alt"></i>
+          </h6>
+        {% elif rating > 4.75 and rating <= 5.00 %}
+          <h6>Average Rating:
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </h6>
+        {% endif %}
+      {% endif %}
     </div>
     <div class="tags">
       {% if tags %}
@@ -20,7 +103,6 @@
       {% else%}
         <ul style="  font-size: 12px; margin: 7px; padding: 7px;">(No Tags)</ul>
       {% endif %}
-      </ul>
     </div>
   </div>
 </div>

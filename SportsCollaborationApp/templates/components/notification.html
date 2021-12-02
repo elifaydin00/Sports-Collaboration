@@ -2,10 +2,10 @@
 
 {% block notification %}
 
-<div class="container" style="min-height: 84vh;">
-  <div class="pt-4 pb-1">
-    <div class="mt-1 mb-4" style="border: 1px solid; border-color: #ccc; border-radius: 20px;">
-      <h3 class="mt-4" style="text-align: center;">My Notifications</h3>
+<div style="min-height: 84vh; background-size: cover; background-image: url({% static 'img/profile_bg.jpg' %});">
+  <div class="container pt-4 pb-1">
+    <div class="mt-1 mb-4" style="border: 1px solid; border-color: grey; border-radius: 20px;">
+      <h3 class="mt-4" style="text-align: center; color: #ccc;">My Notifications</h3>
 
       {% if exist %}
         
@@ -17,7 +17,7 @@
 
       {% else %}
 
-        <h6 class="mt-4" style="text-align: center;">No current notifications!</h6>
+        <h6 class="mt-4" style="text-align: center; color: #ccc;">No current notifications!</h6>
 
       {% endif %}
 

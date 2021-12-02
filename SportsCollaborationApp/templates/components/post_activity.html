@@ -2,8 +2,8 @@
 
 {% block post_activity %}
 
-<div class="container pt-2" style="min-height: 84vh;">
-  <div class="pt-2" style="border: 1px solid; border-color: #ccc; border-radius: 20px;">
+<div class="pt-2" style="min-height: 84vh; background-size: cover; background-image: url({% static 'img/main_bg.jpg' %});">
+  <div class="container pt-2" style="border: 1px solid; border-color: grey; border-radius: 20px; background-color: grey;">
     <h3 class="pt-4 pl-5" style="text-align: left;">Post New Activity</h3>
     <form action="" method="post"> {% csrf_token %}
       <br>

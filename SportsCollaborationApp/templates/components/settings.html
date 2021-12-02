@@ -2,10 +2,10 @@
 
 {% block settings %}
 
-<div style="min-height: 84vh;">
+<div style="min-height: 84vh; background-size: cover; background-image: url({% static 'img/profile_bg.jpg' %});">
   <div style="padding-top: 2vh;"></div>
   <hr style="height: 12px; border: 0; box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5); margin: 0;">
-  <p style="font-size: 22px; text-align: center; margin: 0;">Settings</p>
+  <p style="font-size: 22px; text-align: center; margin: 0; color: #ccc;">Settings</p>
   <hr style="height: 12px; border: 0; box-shadow: inset 0 -12px 12px -12px rgba(0, 0, 0, 0.5); margin: 0;">
   <div class="container" style="margin-left: auto; margin-right: auto;">
     <div class="mid-box" style="padding-top: 2vh; margin-left: auto; margin-right: auto;">
@@ -13,22 +13,22 @@
         <div class="form-row">
           <div class="form-group col-2"></div>
           <div class="form-group col-4">
-            <label class="ml-1" for="firstname">First Name</label>
+            <label class="ml-1" for="firstname" style="color: #ccc;">First Name</label>
             <input class="form-control" id="firstname" placeholder="{{firstname}}" disabled>
           </div>
           <div class="form-group col-4">
-            <label class="ml-1" for="lastname">Last Name</label>
+            <label class="ml-1" for="lastname" style="color: #ccc;">Last Name</label>
             <input class="form-control" id="lastname" placeholder="{{lastname}}" disabled>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group col-2"></div>
           <div class="form-group col-4">
-            <label class="ml-1" for="location">Location</label>
+            <label class="ml-1" for="location" style="color: #ccc;">Location</label>
             <input class="form-control" name="location" placeholder="{{siteUser.location}}">
           </div>
           <div class="form-group col-4">
-            <label class="ml-1" for="age">Age</label>
+            <label class="ml-1" for="age" style="color: #ccc;">Age</label>
             <input class="form-control" type="number" name="age" placeholder="{{siteUser.age}}">
           </div>
         </div>

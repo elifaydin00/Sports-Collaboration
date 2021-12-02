@@ -2,11 +2,11 @@
 
 {% block main %}
 
-<div style="min-height: 84vh;">
+<div style="min-height: 84vh; background-size: cover; background-image: url({% static 'img/main_bg.jpg' %});">
 	<div class="container">
     <div class="pt-4 pb-1">
       <div style="width: 25vw; height: 10vh; margin: auto;">
-        <h5 style="text-align: center;">Search Activities / Sports</h5>
+        <h5 style="text-align: center; color: white;">Search Activities / Sports</h5>
         <form action="" method="POST"> {% csrf_token %}
           <div class="input-group" style="width: 20vw; margin: auto; position: relative;">
             <input name="search_box" type="text" class="form-control" style="width: 16vw; border-radius: 0px;" placeholder="Search" aria-label="Search">
@@ -25,7 +25,7 @@
     </div>
 
     <div class="mt-1 mb-4" style="border: 1px solid; border-color: #ccc; border-radius: 20px;">
-      <h3 class="mt-4" style="text-align: center;">My Upcoming Activities</h3>
+      <h3 class="mt-4" style="text-align: center; color: white;">My Upcoming Activities</h3>
       {% if exist %}
     
         {% for activity, tags, rating in activities_tags_ratings %}
@@ -36,7 +36,7 @@
 
       {% else %}
 
-        <h6 class="mt-4 mb-3" style="text-align: center;">No upcoming activities!</h6>
+        <h6 class="mt-4 mb-3" style="text-align: center; color: white">No upcoming activities!</h6>
 
       {% endif %}
       <div class="row">

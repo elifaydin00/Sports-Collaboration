@@ -160,9 +160,11 @@ form .button input:hover {
 }
 
 .card-container {
-  background-color: rgba(128, 128, 128, 0.185);
+  background-color: rgba(128, 128, 128);
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
   margin-left: 2.5vw;
   margin-right: 2.55vw;
   box-shadow: 0px 10px 20px -10px rgba(0,0,0,0.75);

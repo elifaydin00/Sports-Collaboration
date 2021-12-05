@@ -407,6 +407,13 @@ def notificationsPage(request):
     return render(request, 'pages/NotificationsPage.html', {'notifications': notifications, 'exist': len(notifications) != 0})
 
 
+
+@login_required(login_url='login')
+def messagePage(request):
+    siteUser = SiteUser.objects.get(user=request.user)
+    return render(request, 'pages/MessagePage.html')    
+
+
 @login_required(login_url='login')
 def acceptActivity(request, id):
     notification = Notification.objects.get(id=id)

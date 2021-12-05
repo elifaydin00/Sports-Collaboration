@@ -1,0 +1,25 @@
+{% load static %}
+
+{% block messages %}
+
+<div class="container" style="margin-top:1vh; min-height: 80vh;align-items: center; display:flex; justify-content: center; background-color:grey">
+    <div class="chatbox" style="display: flex;max-width: 100%;position:relative; width:828px;height:70vh;overflow: scroll;">
+        <div class="chatbox-left" style="flex:0%;background: #fff;">
+        </div>
+        <div class="chatbox-right" style="flex:100%;background: #e5ddd5;border:1px solid #000;">
+            <div class="right-conv" style="align-items:center;display:flex;margin:40px;">
+                <div class="conv" style="font-weight:300;margin-left:30px;background: rgba(255,255,255,0.1); padding: 0px 30px; border-radius: 8px; flex-basis: 60%;border:1px solid grey;">
+                    <p style="margin-top:15px"> {% lorem 1 b random %}</p>
+                </div>
+            </div>
+            <div class="left-conv" style="align-items:center;display:flex;margin-right:40px;">
+                <div class="conv2" style="font-weight:300;margin-left:40% ;background: rgba(255,255,255,0.1); padding: 0px 30px; border-radius: 8px; flex-basis: 80%;border:1px solid grey;">
+                    <p style="margin-top:15px"> {% lorem 1 b random %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock messages %}

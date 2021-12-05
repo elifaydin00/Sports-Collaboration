@@ -259,3 +259,93 @@ button.join {
 .card-footer, .card hr {
   border-color: rgba(24,28,33,0.06);
 }
+
+/*Tutor Post Card*/
+/*body {
+  background:url(../static/img/american-football.jpg);
+  background-size: repeat;
+  box-sizing: border-box;
+}*/
+
+.tutor-container {
+  background: white;
+  border-radius: 5px;
+  Border: 3px solid rgba(6, 236, 44, 0.219);
+  box-shadow: hsla(0, 0, 0, .2) 0 4px 2px -2px;
+  font-family: var(--roboto);
+  font-weight: 100;
+  margin: 48px 48px auto;
+  width: 40rem;
+}
+.tutor-container a {
+  color: #4d4dff;
+  text-decoration: none;
+  transition: .25s ease;
+  
+}
+
+
+.tutor-author,
+.tutor-author--no-cover {
+  margin: 0 auto;
+  padding-top: .125rem;
+  width: 80%;
+}
+
+
+.tutor-author--no-cover h3 {
+  color:black;
+  font-weight: 100;
+}
+
+
+.tutor-body {
+  margin: 0 auto;
+  width: 80%;
+}
+
+.tutor-title h1 a {
+  color:black;
+  font-weight: 200;
+}
+.tutor-summary p {
+  color:black;
+}
+.tags2 {
+  background-color: whitesmoke;
+  background-size:cover;
+  text-align: center;
+  color:green;
+  padding: 15px;
+  margin-top: 30px;
+}
+
+.tags2 ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tags2 ul li {
+  border: 1px solid #2D2747;
+  border-radius: 2px;
+  color:green;
+  display: inline-block;
+  font-size: 12px;
+  margin: 0 7px 7px 0;
+  padding: 7px;
+}
+
+button.join2  {
+  background-color:rgba(113, 50, 143, 0)!important;;
+  border: 1px solid #e6ecec;
+  border-radius: 3px;
+  color: #231E39!important;
+  font-family: Montserrat, sans-serif;
+  font-weight: 500;
+  
+  padding: 10px 25px;
+  margin-top: 20px;
+  margin-left:200px;
+}
+

@@ -19,4 +19,5 @@ urlpatterns = [
   path('acceptActivity/<str:id>/', views.acceptActivity, name="accept_activity"),
   path('deleteNotification/<str:id>/', views.deleteNotification, name="delete_notification"),
   path('rateActivity/<str:id>/<str:rating>', views.rateActivity, name="rate_activity"),
+  path('messages/', views.messagePage, name="messages"),
 ]

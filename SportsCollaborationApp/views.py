@@ -96,7 +96,7 @@ def registerPage(request):
 
         user = User.objects.create_user(email.split("@")[0], '', password)
         siteUser = SiteUser(user=user, name=name, email=email, age=age,
-                            phoneNumber=number, gender=gender_val, location=location, balance=0.0)
+            phoneNumber=number, gender=gender_val, location=location, balance=0.0)
         siteUser.save()
         auth.login(request, user)
         return redirect('main')
@@ -134,7 +134,9 @@ def mainPage(request):
         else:
             messages.error(request, "Search field can not be empty!")
 
-    return render(request, 'pages/MainPage.html', {'activities_tags_ratings': zip(activities, tags_list, rating_list), 'exist': len(activities) != 0})
+    notifiCount = len(Notification.objects.filter(receiverSiteUser__user=request.user))
+
+    return render(request, 'pages/MainPage.html', {'activities_tags_ratings': zip(activities, tags_list, rating_list), 'exist': len(activities) != 0, 'notifiCount': notifiCount})
 
 
 @login_required(login_url='login')
@@ -152,7 +154,7 @@ def profilePage(request, username):
     for i in allActivities:
         if i.status == '3':
             activities.append(i)
-            
+          
             curr_tags = Tag.objects.filter(activity=i)
             curr_tags_strings_list = []
             for j in curr_tags:
@@ -171,7 +173,9 @@ def profilePage(request, username):
             else:
                 rating_list.append(float("{:.2f}".format(point / float(counter))))
 
-    return render(request, 'pages/ProfilePage.html', {'count': len(count), 'siteUser': siteUser, 'itself': request.user == user, 'activities_tags_ratings': zip(activities, tags_list, rating_list)})
+    notifiCount = len(Notification.objects.filter(receiverSiteUser__user=request.user))
+
+    return render(request, 'pages/ProfilePage.html', {'count': len(count), 'siteUser': siteUser, 'itself': request.user == user, 'activities_tags_ratings': zip(activities, tags_list, rating_list), 'notifiCount': notifiCount})
 
 
 @login_required(login_url='login')
@@ -198,7 +202,9 @@ def settingsPage(request):
 
         return redirect('profile', request.user.username)
 
-    return render(request, 'pages/SettingsPage.html', {'siteUser': siteUser, 'firstname': firstname, 'lastname': lastname})
+    notifiCount = len(Notification.objects.filter(receiverSiteUser__user=request.user))
+
+    return render(request, 'pages/SettingsPage.html', {'siteUser': siteUser, 'firstname': firstname, 'lastname': lastname, 'notifiCount': notifiCount})
 
 
 @login_required(login_url='login')
@@ -251,7 +257,9 @@ def changePasswordPage(request):
 
         return redirect('settings')
 
-    return render(request, 'pages/ChangePasswordPage.html')
+    notifiCount = len(Notification.objects.filter(receiverSiteUser__user=request.user))
+
+    return render(request, 'pages/ChangePasswordPage.html', {'notifiCount': notifiCount})
 
 
 @login_required(login_url='login')
@@ -290,8 +298,9 @@ def searchPage(request, search_str):
 
                 rating_list.append("Not finished yet")
 
+    notifiCount = len(Notification.objects.filter(receiverSiteUser__user=request.user))
 
-    return render(request, 'pages/SearchPage.html', {'activities_tags_ratings': zip(activities, tags_list, rating_list), 'exist': len(activities) != 0})
+    return render(request, 'pages/SearchPage.html', {'activities_tags_ratings': zip(activities, tags_list, rating_list), 'exist': len(activities) != 0, 'notifiCount': notifiCount})
 
 
 @login_required(login_url='login')
@@ -320,7 +329,9 @@ def activityPage(request, id):
     else:
         rating = float("{:.2f}".format(point / float(counter)))
 
-    return render(request, 'pages/ActivityPage.html', {'activity': activity, 'tags': tags, 'joinStatus': joinStatus, 'owned': request.user == activity.siteUser.user, 'rating': rating})
+    notifiCount = len(Notification.objects.filter(receiverSiteUser__user=request.user))
+    
+    return render(request, 'pages/ActivityPage.html', {'activity': activity, 'tags': tags, 'joinStatus': joinStatus, 'owned': request.user == activity.siteUser.user, 'rating': rating, 'notifiCount': notifiCount})
 
 
 @login_required(login_url='login')
@@ -396,7 +407,9 @@ def postActivityPage(request):
 
         return redirect('main')
 
-    return render(request, 'pages/PostActivityPage.html')
+    notifiCount = len(Notification.objects.filter(receiverSiteUser__user=request.user))
+
+    return render(request, 'pages/PostActivityPage.html', {'notifiCount': notifiCount})
 
 
 @login_required(login_url='login')
@@ -404,14 +417,10 @@ def notificationsPage(request):
     siteUser = SiteUser.objects.get(user=request.user)
     notifications = list(Notification.objects.filter(receiverSiteUser=siteUser))
     notifications.sort(key=lambda x: x.title)
-    return render(request, 'pages/NotificationsPage.html', {'notifications': notifications, 'exist': len(notifications) != 0})
 
+    notifiCount = len(Notification.objects.filter(receiverSiteUser__user=request.user))
 
-
-@login_required(login_url='login')
-def messagePage(request):
-    siteUser = SiteUser.objects.get(user=request.user)
-    return render(request, 'pages/MessagePage.html')    
+    return render(request, 'pages/NotificationsPage.html', {'notifications': notifications, 'exist': len(notifications) != 0, 'notifiCount': notifiCount})
 
 
 @login_required(login_url='login')
@@ -467,6 +476,220 @@ def rateActivity(request, id, rating):
         return redirect('notification')
     ratedActivity = Activity.objects.get(id=notification.pointerId)
     newRating = ActivityRating(attendantUser=targetSiteUser, activity=ratedActivity, rating=rating)
+    newRating.save()
+    notification.delete()
+    return redirect('notification')
+
+
+@login_required(login_url='login')
+def tutorMainPage(request):
+    tutor_courses = Tutor.objects.filter(tutorName__user=request.user)
+
+    participated_tutors = TutorshipModel.objects.filter(siteUser__user=request.user).filter(tutorshipStatus='1')
+    tutee_courses = []
+
+    for i in participated_tutors:
+        tutee_courses.append(i.tutor)
+
+    if request.method == 'POST':
+        if request.POST.get('search_box') != "":
+            return redirect('tutor_search', request.POST.get('search_box'))
+        else:
+            messages.error(request, "Search field can not be empty!")
+
+    notifiCount = len(Notification.objects.filter(receiverSiteUser__user=request.user))
+
+    return render(request, 'pages/TutorMainPage.html', {'tutors': tutor_courses, 'exist_tutors': len(tutor_courses) != 0, 'tutees': tutee_courses, 'exist_tutees': len(tutee_courses) != 0, 'notifiCount': notifiCount})
+
+
+@login_required(login_url='login')
+def tutorSearchPage(request, search_str):
+
+    all_tutors = list(Tutor.objects.all())
+    all_tutors.sort(key=lambda x: x.title)
+    tutors = []
+    for i in all_tutors:
+        if i.tutoringStatus != '2' and (search_str.lower() in i.title.lower() or search_str.lower() in i.tutorName.name.lower()):
+            tutors.append(i)
+
+    notifiCount = len(Notification.objects.filter(receiverSiteUser__user=request.user))
+
+    return render(request, 'pages/TutorSearchPage.html', {'tutors': tutors, 'exist': len(tutors) != 0, 'notifiCount': notifiCount})
+
+
+@login_required(login_url='login')
+def directMessagesPage(request):
+    messages = list(Message.objects.filter(sourceUser__user=request.user))
+    messages.sort(key=lambda x: x.targetUser.name)
+
+    notifiCount = len(Notification.objects.filter(receiverSiteUser__user=request.user))
+
+    return render(request, 'pages/DirectMessagesPage.html', {'messages': messages, 'exist': len(messages) != 0, 'notifiCount': notifiCount})
+
+
+@login_required(login_url='login')
+def privateMessagesPage(request, user_id):
+    sourceUser = SiteUser.objects.get(user=request.user)
+    targetUser = SiteUser.objects.get(id=user_id)
+    ownership_dict = {}
+    privateMessagesByOwner = list(DirectMessage.objects.filter(message__sourceUser=sourceUser).filter(message__targetUser=targetUser))
+    for i in privateMessagesByOwner:
+        ownership_dict[i] = '1'
+    privateMessagesByOther = list(DirectMessage.objects.filter(message__sourceUser=targetUser).filter(message__targetUser=sourceUser))
+    for i in privateMessagesByOther:
+        ownership_dict[i] = '2'
+    privateMessagesAll = privateMessagesByOwner + privateMessagesByOther
+    privateMessagesAll.sort(key=lambda x: x.time)
+    ownership_list = []
+    for i in privateMessagesAll:
+        ownership_list.append(ownership_dict[i])
+    if request.method == 'POST':
+        if request.POST.get('send_msg_box') != "":
+            ownerUserDirectMessage = Message.objects.get(targetUser=targetUser, sourceUser=sourceUser)
+            otherUserDirectMessage = list(Message.objects.filter(targetUser=sourceUser).filter(sourceUser=targetUser))
+            if len(otherUserDirectMessage) == 0:
+                title = "New Direct Message"
+                description = sourceUser.name + " have send you a new message."
+                newNotifi = Notification(senderSiteUser=sourceUser, receiverSiteUser=targetUser, title=title, description=description, pointerId=id, notificationType='1')
+                newNotifi.save()
+                otherUserDirectMessage = Message(targetUser=sourceUser, sourceUser=targetUser)
+                otherUserDirectMessage.save()
+            privMessage = DirectMessage(message=ownerUserDirectMessage, text=request.POST.get('send_msg_box'))
+            privMessage.save()
+            return redirect('private_message', user_id)
+        else:
+            messages.error(request, "Type some characters to send!")
+
+    notifiCount = len(Notification.objects.filter(receiverSiteUser__user=request.user))
+
+    return render(request, 'pages/PrivateMessagePage.html', {'targetUser': targetUser, 'priv_messages_ownerships': zip(privateMessagesAll, ownership_list), 'exist': len(privateMessagesAll) != 0, 'notifiCount': notifiCount})
+
+
+@login_required(login_url='login')
+def startMessage(request, user_id):
+    sourceUser = SiteUser.objects.get(user=request.user)
+    targetUser = SiteUser.objects.get(id=user_id)
+    ownerUserDirectMessage = list(Message.objects.filter(sourceUser=sourceUser).filter(targetUser=targetUser))
+    if len(ownerUserDirectMessage) == 0:
+        ownerUserDirectMessage = Message(sourceUser=sourceUser, targetUser=targetUser)
+        ownerUserDirectMessage.save()
+    return redirect('private_message', user_id)
+
+
+@login_required(login_url='login')
+def postCoursePage(request):
+
+    if request.method == 'POST':
+        title = request.POST['title']
+        description = request.POST['description']
+
+        if title == "" or description == "":
+            messages.error(request, 'Please, fill all of fields!')
+            return redirect('post_course')
+
+        if len(title) < 10:
+            messages.error(request, 'Activity title field must have 10 or more characters!')
+            return redirect('post_course')
+
+        if len(description) < 25:
+            messages.error(request, 'Activity description field must have 25 or more characters!')
+            return redirect('post_course')
+
+        siteUser = SiteUser.objects.get(user=request.user)
+        newCourse = Tutor(tutorName=siteUser, title=title, description=description, tutoringStatus='1')
+        newCourse.save()
+
+        return redirect('tutor_main')
+
+    notifiCount = len(Notification.objects.filter(receiverSiteUser__user=request.user))
+
+    return render(request, 'pages/PostCoursePage.html', {'notifiCount': notifiCount})
+
+
+@login_required(login_url='login')
+def coursePage(request, id):
+    siteUser = SiteUser.objects.get(user=request.user)
+    tutor = Tutor.objects.get(id=id)
+    tutee = list(TutorshipModel.objects.filter(siteUser=siteUser).filter(tutor=tutor))
+    rating = ""
+    curr_ratings = TutorRating.objects.filter(tutorName=tutor.tutorName)
+    point = 0
+    counter = 0
+    for j in curr_ratings:
+        point += int(j.rating)
+        counter += 1
+    if counter == 0:
+        rating = "No ratings"
+    else:
+        rating = float("{:.2f}".format(point / float(counter)))
+
+    attendedStatus = False
+    if len(tutee) == 1:
+      if tutee[0].tutorshipStatus == '2':
+        attendedStatus = True
+
+    notifiCount = len(Notification.objects.filter(receiverSiteUser__user=request.user))
+
+    return render(request, 'pages/CoursePage.html', {'tutor': tutor, 'rating': rating, 'owned': siteUser == tutor.tutorName, 'disabled': tutor.tutoringStatus == '2', 'joined': len(tutee) == 1, 'attended': attendedStatus, 'notifiCount': notifiCount})
+
+
+@login_required(login_url='login')
+def changeTutorStatus(request, id):
+    tutor = Tutor.objects.get(id=id)
+    requestedSiteUser = tutor.tutorName
+    if request.user != requestedSiteUser.user:
+        return redirect('course', id)
+    if tutor.tutoringStatus == '1':
+        tutor.tutoringStatus = '2'
+    else:
+        tutor.tutoringStatus = '1'
+    tutor.save()
+    return redirect('course', id)
+
+
+@login_required(login_url='login')
+def enterCourse(request, id):
+    tutor = Tutor.objects.get(id=id)
+    requestedSiteUser = SiteUser.objects.get(user=request.user)
+    if len(list(TutorshipModel.objects.filter(siteUser=requestedSiteUser).filter(tutor=tutor))) == 1:
+        return redirect('course', id)
+    tutee = TutorshipModel(siteUser=requestedSiteUser, tutor=tutor, tutorshipStatus='1')
+    tutee.save()
+
+    title = "About Tutorship"
+    description = requestedSiteUser.name + " applied to your '" + tutor.title + "' course."
+    newNotifi = Notification(senderSiteUser=requestedSiteUser, receiverSiteUser=tutor.tutorName, title=title, description=description, notificationType='1')
+    newNotifi.save()
+
+    return redirect('course', id)
+
+
+@login_required(login_url='login')
+def leaveCourse(request, id):
+    tutor = Tutor.objects.get(id=id)
+    requestedSiteUser = SiteUser.objects.get(user=request.user)
+    if len(list(TutorshipModel.objects.filter(siteUser=requestedSiteUser).filter(tutor=tutor))) == 0:
+        return redirect('course', id)
+    tutee = TutorshipModel.objects.get(siteUser=requestedSiteUser, tutor=tutor)
+    tutee.tutorshipStatus = '2'
+    tutee.save()
+
+    title = "Rating Ended Course"
+    description = "Please rate the course '" + tutor.title + "'."
+    newNotifi = Notification(senderSiteUser=tutor.tutorName, receiverSiteUser=requestedSiteUser, title=title, description=description, pointerId=tutor.tutorName.id, notificationType='4')
+    newNotifi.save()
+
+    return redirect('course', id)
+
+
+@login_required(login_url='login')
+def rateTutor(request, id, rating):
+    notification = Notification.objects.get(id=id)
+    targetSiteUser = notification.receiverSiteUser
+    if request.user != targetSiteUser.user:
+        return redirect('notification')
+    ratedTutor = SiteUser.objects.get(id=notification.pointerId)
+    newRating = TutorRating(siteUser=targetSiteUser, tutorName=ratedTutor, rating=rating)
     newRating.save()
     notification.delete()
     return redirect('notification')

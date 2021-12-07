@@ -25,7 +25,7 @@
         </div>
         <div class="col-10"></div>
       </div>
-    {% elif notification.notificationType == '3' %}
+    {% elif notification.notificationType == '3' or notification.notificationType == '4' %}
       <div class="row" style="margin-left: -0.75vw; margin-bottom: 1vh;">
         <div class="col-1" style="text-align: center;">
           <input type="radio" name="rating" value="1">
@@ -64,9 +64,15 @@
       </div>
       <div class="row">
         <div class="col-2">
-          <button class="mt-1 btn btn-secondary btn-block text-decoration-none" type="button" id="rate" data-url="{% url 'rate_activity' notification.id 123 %}">
-            Rate
-          </button>
+          {% if notification.notificationType == '3' %}
+            <button class="mt-1 btn btn-secondary btn-block text-decoration-none" type="button" id="rate" data-url="{% url 'rate_activity' notification.id 123 %}">
+                Rate
+            </button>
+          {% else %}
+            <button class="mt-1 btn btn-secondary btn-block text-decoration-none" type="button" id="rate" data-url="{% url 'rate_tutor' notification.id 123 %}">
+                Rate
+            </button>
+          {% endif %}
         </div>
         <div class="col-10"></div>
       </div>

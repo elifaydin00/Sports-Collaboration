@@ -39,42 +39,23 @@ class ActivityRating(models.Model):
 	activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
 	rating = models.CharField(max_length=25, choices=(('1', 1), ('2', 2), ('3', 3), ('4', 4), ('5', 5)))
 
-"""
-class Skill(models.Model):
-	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
-	siteUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
-	sport = models.CharField(max_length=100)
-	rating = models.CharField(max_length=25, choices=(('1', 1), ('2', 2), ('3', 3), ('4', 4), ('5', 5)))
-
-class UserSkillReview(models.Model):
-	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
-	attendantUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE, related_name='attendantUser')
-	reviewedUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE, related_name='reviewedUser')
-	activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
-	title = models.CharField(max_length=100)
-	description = models.TextField(max_length=500)
-	rating = models.CharField(max_length=25, choices=(('1', 1), ('2', 2), ('3', 3), ('4', 4), ('5', 5)))
-"""
-
 class Tutor(models.Model):
-	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
-	tutorName = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
-	sport = models.CharField(max_length=50)
-	description = models.TextField(max_length=500)
-	tutoringStatus = models.CharField(max_length=25, choices=(('1', 'Available'), ('2', 'Not available')))
+  id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+  tutorName = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
+  title = models.CharField(max_length=100)
+  description = models.TextField(max_length=500)
+  tutoringStatus = models.CharField(max_length=25, choices=(('1', 'Available'), ('2', 'Not available')))
 
 class TutorshipModel(models.Model):
-	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)	
-	siteUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
-	tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
-	tutorshipStatus = models.CharField(max_length=25, choices=(('1', 'In Progress'), ('2', 'Completed')))
+  id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)	
+  siteUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
+  tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
+  tutorshipStatus = models.CharField(max_length=25, choices=(('1', 'Ongoing'), ('2', 'Completed')))
 
 class TutorRating(models.Model):
 	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)	
-	siteUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
-	tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
-	title = models.CharField(max_length=100)
-	description = models.TextField(max_length=500)
+	siteUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE, related_name='raterUser')
+	tutorName = models.ForeignKey(SiteUser, on_delete=models.CASCADE, related_name='tutorUser')
 	rating = models.CharField(max_length=25, choices=(('1', 1), ('2', 2), ('3', 3), ('4', 4), ('5', 5)))
 
 class Message(models.Model):
@@ -83,10 +64,10 @@ class Message(models.Model):
 	targetUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE, related_name='targetUser')
 
 class DirectMessage(models.Model):
-	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
-	message = models.ForeignKey(Message, on_delete=models.CASCADE)
-	text = models.TextField(max_length=500)
-	time = models.TimeField()
+  id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+  message = models.ForeignKey(Message, on_delete=models.CASCADE)
+  text = models.TextField(max_length=500)
+  time = models.TimeField(auto_now_add=True)
 
 class Notification(models.Model):
   id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
@@ -95,16 +76,10 @@ class Notification(models.Model):
   title = models.CharField(max_length=100)
   description = models.TextField(max_length=500)
   pointerId = models.CharField(max_length=50, null=True, blank=True)
-  notificationType = models.CharField(max_length=25, choices=(('1', 'Acknowledgement'), ('2', 'Request'), ('3', 'Rating')))
+  notificationType = models.CharField(max_length=25, choices=(('1', 'Acknowledgement'), ('2', 'Request'), ('3', 'RatingActivity'), ('4', 'RatingTutor')))
 
 class ApplicantOfActivity(models.Model):
   id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
   siteUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
   activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
-  notification = models.ForeignKey(Notification, on_delete=models.CASCADE)
-
-class ApplicantOfTutor(models.Model):
-  id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
-  siteUser = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
-  tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
   notification = models.ForeignKey(Notification, on_delete=models.CASCADE)

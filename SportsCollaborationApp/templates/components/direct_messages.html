@@ -1,0 +1,31 @@
+{% load static %}
+
+{% block direct_messages %}
+
+<div class="container-fluid" style="min-height: 84vh; background-size: cover; background-image: url({% static 'img/search_bg.jpg' %});">
+  <div class="row">
+    <div class="col"></div>
+    <div class="col pt-4 pb-1">
+      <div class="mt-1 mb-4" style="border: 1px solid; border-color: #ccc; border-radius: 20px;">
+        <h3 class="mt-4" style="text-align: center; color: white;">Direct Messages</h3>
+        {% if exist %}
+        
+          {% for message in messages %}
+            {% include "../cards/user_card.html" with message=message %}
+            {% block user_card %}
+            {% endblock user_card %}
+          {% endfor %}
+
+        {% else %}
+
+          <h6 class="mt-4" style="text-align: center; color: white;">No messages found!</h6>
+
+        {% endif %}
+        <div class="pb-4"></div>
+      </div>
+    </div>
+    <div class="col"></div>
+  </div>
+</div>
+
+{% endblock direct_messages %}

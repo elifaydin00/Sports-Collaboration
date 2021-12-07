@@ -1,0 +1,28 @@
+{% load static %}
+
+{% block search %}
+
+<div style="min-height: 84vh; background-size: cover; background-image: url({% static 'img/tutor_bg.jpg' %});">
+  <div class="container pt-4 pb-1">
+    <div class="mt-1 mb-4" style="border: 1px solid; border-color: #ccc; border-radius: 20px;">
+      <h3 class="mt-4" style="text-align: center; color: lightgrey;">Tutor Search Results</h3>
+
+        {% if exist %}
+        
+          {% for tutor in tutors %}
+            {% include "../cards/tutor_card.html" with tutor=tutor %}
+            {% block tutor_card %}
+            {% endblock tutor_card %}
+          {% endfor %}
+
+        {% else %}
+
+          <h6 class="mt-4" style="text-align: center; color: lightgrey;">No results found!</h6>
+
+        {% endif %}
+      <div class="pb-4"></div>
+    </div>
+  </div>
+</div>
+
+{% endblock search %}

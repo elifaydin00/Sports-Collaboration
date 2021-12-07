@@ -7,15 +7,21 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav mr-auto">
         <a class="navbar-brand text-light" href="/"><i class="fa fa-home"></i> Find Me An Athlete</a>
-      </ul>
-			<ul class="navbar-nav ml-auto">
         <div class="input-group">
-					<a href="{% url 'notification' %}" class="nav-link" style="width: 7vw;">Notifications <i class="fas fa-bell"></i></a>
-				</div>
-				<div class="input-group">
-					<a href="{% url 'profile' request.user.username %}" class="nav-link" style="width: 6vw;">My Profile <i class="fa fa-user-circle"></i></a>
-				</div>
-			  <div class="input-group">
+	  	  <a href="{% url 'tutor_main' %}" class="nav-link" style="width: 5.5vw;">Tutorship <i class="fas fa-running"></i></a>
+	  	</div>
+      </ul>
+	  <ul class="navbar-nav ml-auto">
+        <div class="input-group">
+		  <a href="{% url 'direct_messages' %}" class="nav-link" style="width: 6vw;">Messages <i class="fas fa-envelope"></i></a>
+		</div>
+        <div class="input-group">
+		  <a href="{% url 'notification' %}" class="nav-link" style="width: 8vw;">Notifications ({{notifiCount}}) <i class="fas fa-bell"></i></a>
+		</div>
+		<div class="input-group">
+		  <a href="{% url 'profile' request.user.username %}" class="nav-link" style="width: 6vw;">My Profile <i class="fa fa-user-circle"></i></a>
+		</div>
+		<div class="input-group">
           <a href="{% url 'logout' %}" class="nav-link" style="width: 6vw;">Logout <i class="fa fa-sign-out-alt"></i></a>
         </div>
       </ul>

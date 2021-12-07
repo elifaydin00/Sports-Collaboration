@@ -1,0 +1,24 @@
+{% load static %}
+
+{% block tutor_card %}
+
+<div class="tutor-container">
+  <div class="tutor-header">
+    <div class="mt-3 tutor-author--no-cover">
+      <h3>Course by <a style="text-decoration: none; color: black;" href="/profile/{{tutor.tutorName.user.username}}">{{tutor.tutorName.name}}</a></h3>
+    </div>
+  </div>
+  <div class="tutor-body">
+    <div class="tutor-title">
+      <h1>{{tutor.title}}</h1>
+    </div>
+    <div class="tutor-summary">
+      <p style="text-align: justify;">{{tutor.description}}</p>
+    </div>
+      <div class="buttons">
+        <button class="join2" onclick="location.href='{% url 'course' tutor.id %}';">Click for course details</button>
+      </div>
+  </div>
+</div>
+
+{% endblock tutor_card %}

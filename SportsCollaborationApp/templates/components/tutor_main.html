@@ -1,0 +1,78 @@
+{% load static %}
+
+{% block tutor_main %}
+
+<div style="min-height: 84vh; background-size: cover; background-image: url({% static 'img/tutor_bg.jpg' %});">
+	<div class="container">
+    <div class="pt-4 pb-1">
+      <div style="width: 25vw; height: 10vh; margin: auto;">
+        <h5 style="text-align: center; color: white">Search Tutors / Sports</h5>
+        <form action="" method="POST"> {% csrf_token %}
+          <div class="input-group" style="width: 20vw; margin: auto; position: relative;">
+            <input name="search_box" type="text" class="form-control" style="width: 16vw; border-radius: 0px;" placeholder="Search" aria-label="Search">
+            <button class="btn btn-secondary text-decoration-none" style="width: 4vw; border-radius: 0px;" type="submit"><i class="fa fa-search"></i></button>
+          </div>
+        </form>
+      </div>  
+    </div>
+
+    <div style="width: 25vw; height: 5vh; margin: auto;">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="text-center" style="color: red">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <div class="mt-1 mb-4" style="border: 1px solid; border-color: #ccc; border-radius: 20px;">
+      <h3 class="mt-4" style="text-align: center; color: white;">My Upcoming Tutor Teachings</h3>
+      {% if exist_tutors %}
+    
+        <div style="margin-left: auto; margin-right: auto;">
+        {% for tutor in tutors %}
+          {% include "../cards/tutor_card.html" with tutor=tutor %}
+          {% block tutor_card %}
+          {% endblock tutor_card %}
+        {% endfor %}
+        </div>
+      {% else %}
+
+        <h6 class="mt-4 mb-3" style="text-align: center; color: white;">No upcoming teachings!</h6>
+
+      {% endif %}
+
+      <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+          <button class="mt-2 mb-3 btn btn-secondary btn-block text-decoration-none" type="button" onclick="location.href='{% url "post_course" %}'">
+            Post New Tutorship Service
+          </button>
+        </div>
+        <div class="col-4"></div>
+      </div>
+      <div class="pb-3"></div>
+    </div>
+
+    <div class="mt-1 pb-4" style="border: 1px solid; border-color: #ccc; border-radius: 20px;">
+      <h3 class="mt-4" style="text-align: center; color: white;">My Upcoming Tutor Learnings</h3>
+      {% if exist_tutees %}
+    
+        <div style="margin-left: auto; margin-right: auto;">
+        {% for tutor in tutees %}
+          {% include "../cards/tutor_card.html" with tutor=tutor %}
+          {% block tutor_card_2 %}
+          {% endblock tutor_card_2 %}
+        {% endfor %}
+        </div>
+      {% else %}
+
+        <h6 class="mt-4 mb-3" style="text-align: center; color: white;">No upcoming learnings!</h6>
+
+      {% endif %}
+
+    </div>
+    <div class="pb-3"></div>
+  </div>
+</div>
+
+{% endblock tutor_main %}

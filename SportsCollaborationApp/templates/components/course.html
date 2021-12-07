@@ -1,0 +1,142 @@
+{% load static %}
+
+{% block course %}
+
+<div style="min-height: 84vh; background-size: cover; background-image: url({% static 'img/tutor_bg.jpg' %});">
+  <div class="container posts-content">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card mb-2" style="background-color: rgba(195,195,195,0.90); border-radius: 20px;">
+          <div class="card-body">
+            <div class="media mb-2">
+              <div class="media-body ml-3">
+                <h2>{{tutor.title}}</h2>
+                <br>
+                <h4>Course by <a style="color: indigo; text-decoration: none;" href="/profile/{{tutor.tutorName.user.username}}">{{tutor.tutorName.name}}</a></h4>
+                <br>
+                {% if rating == "No ratings" %}
+                  <h5>Average rating of trainer: 
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                  </h5>
+                {% elif rating >= 1.00 and rating <= 1.25 %}
+                  <h5>Average rating of trainer: 
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                  </h5>
+                {% elif rating > 1.25 and rating <= 1.75 %}
+                  <h5>Average rating of trainer: 
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                  </h5>
+                {% elif rating > 1.75 and rating <= 2.25 %}
+                  <h5>Average rating of trainer: 
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                  </h5>
+                {% elif rating > 2.25 and rating <= 2.75 %}
+                  <h5>Average rating of trainer: 
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                  </h5>
+                {% elif rating > 2.75 and rating <= 3.25 %}
+                  <h5>Average rating of trainer: 
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                  </h5>
+                {% elif rating > 3.25 and rating <= 3.75 %}
+                  <h5>Average rating of trainer: 
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                    <i class="far fa-star"></i>
+                  </h5>
+                {% elif rating > 3.75 and rating <= 4.25 %}
+                  <h5>Average rating of trainer: 
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                  </h5>
+                {% elif rating > 4.25 and rating <= 4.75 %}
+                  <h5>Average rating of trainer: 
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                  </h5>
+                {% elif rating > 4.75 and rating <= 5.00 %}
+                  <h5>Average rating of trainer: 
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </h5>
+                {% endif %}
+                <br>
+                <p>{{tutor.description}}</p>
+              </div>
+            </div>
+          </div>
+          {% if owned %}
+            {% if disabled %}
+              <div class="buttons">
+                <button style="margin-left: 2vw; margin-bottom: 4vh;" class="btn btn-outline-danger text-decoration-none" onclick="location.href='{% url 'change_tutor_status' tutor.id %}';">Disabled</button>
+              </div>
+            {% else %}
+              <div class="buttons">
+                <button style="margin-left: 2vw; margin-bottom: 4vh;" class="btn btn-outline-success text-decoration-none" onclick="location.href='{% url 'change_tutor_status' tutor.id %}';">Enabled</button>
+              </div>
+            {% endif %}
+          {% else %}
+            {% if disabled %}
+              <p style="margin-left: 2vw; margin-bottom: 4vh; color: red;">
+                This course is not applicable at the moment!
+              </p>
+            {% else %}
+              {% if joined %}
+                {% if attended %}
+                  <p style="margin-left: 2vw; margin-bottom: 4vh; color: red;">
+                    You have already attended once!
+                  </p>
+                {% else %}
+                  <div class="buttons">
+                    <button style="margin-left: 2vw; margin-bottom: 4vh;" class="btn btn-outline-danger text-decoration-none" onclick="location.href='{% url 'leave_course' tutor.id %}';">Leave Course</button>
+                  </div>
+                {% endif %}
+              {% else %}
+                <div class="buttons">
+                  <button style="margin-left: 2vw; margin-bottom: 4vh;" class="btn btn-outline-primary text-decoration-none" onclick="location.href='{% url 'enter_course' tutor.id %}';">Apply Course</button>
+                </div>
+              {% endif %}
+            {% endif %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock course %}

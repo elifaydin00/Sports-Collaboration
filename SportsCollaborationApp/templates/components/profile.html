@@ -17,7 +17,7 @@
             Settings <i class="fas fa-cog" style="font-size: 16px; margin-left: 0.25vw;"></i>
           </button>
         {% else %}
-          <button style="width: 45%" class="mt-1 btn btn-secondary btn-block text-decoration-none" type="button">
+          <button style="width: 45%" class="mt-1 btn btn-secondary btn-block text-decoration-none" type="button" onclick="location.href='{% url "start_message" siteUser.id %}'">
             Send Message <i class="fas fa-envelope" style="font-size: 16px; margin-left: 0.25vw;"></i>
           </button>
         {% endif %}

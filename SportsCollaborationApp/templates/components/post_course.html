@@ -15,6 +15,14 @@
       <textarea class="ml-5 px-2 pt-1" style="width: 25vw; height: 20vh; resize: none;" type="text" name="description" placeholder="Enter course description" maxlength="500"></textarea>
       <br>
       <br>
+      <h5 class="pl-5 ml-2">Maximum Participants</h5>
+      <input class="ml-5 px-2" style="width: 15vw; py-1" type="number" name="max_users" placeholder="Enter a number">
+      <br>
+      <br>
+      <h5 class="pl-5 ml-2">Total Fee</h5>
+      <input class="ml-5 px-2" style="width: 15vw; py-1" type="text" name="total_fee" placeholder="Enter total fee">
+      <br>
+      <br>
       <input type="submit" style="text-decoration: none;" class="ml-5 btn btn-secondary" value="Post the course">
       {% if messages %}
         {% for message in messages %}

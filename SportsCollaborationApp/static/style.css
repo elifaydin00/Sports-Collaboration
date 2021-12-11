@@ -260,85 +260,18 @@ button.join {
   border-color: rgba(24,28,33,0.06);
 }
 
-/*Tutor Post Card*/
-/*body {
-  background:url(../static/img/american-football.jpg);
-  background-size: repeat;
-  box-sizing: border-box;
-}*/
-
-.tutor-container {
-  background: white;
-  border-radius: 5px; 
-  border: 2px solid rgba(6, 236, 44, 0.819); 
-  box-shadow: hsla(0, 0, 0, .2) 0 4px 2px -2px; 
-  font-family: var(--roboto); 
-  font-weight: 100; 
-  margin-left: 48px;
-  margin-right: 48px;
-  margin-top: 1.5vh;
-  margin-bottom: 1.5vh;
-}
-
-.tutor-container a {
-  color: #4d4dff;
-  text-decoration: none;
-  transition: .25s ease; 
-}
-
-.tutor-author, .tutor-author--no-cover {
-  margin: 0 auto;
-  padding-top: .125rem;
-  width: 80%;
-}
-
-.tutor-author--no-cover h3 {
-  color:black;
-  font-weight: 100;
-}
-
-.tutor-body {
-  margin: 0 auto;
-  width: 80%;
-}
-
-.tutor-title h1 a {
-  color: black;
-  font-weight: 200;
-}
-
-.tutor-summary p {
-  color: black;
-}
-
-button.join2 {
-  background-color: rgba(113, 50, 143, 0)!important;;
-  border: 1px solid #e6ecec;
-  border-radius: 3px;
-  color: #231E39!important;
-  font-family: Montserrat, sans-serif;
-  font-weight: 500;
-  padding: 10px 25px;
-  margin-top: 1vh;
-  margin-bottom: 1.5vh;
-  margin-left: -26px;
-}
-
-/*Tutor Card2 Stylings*/
-/*body {
-  background:url(../img/american-football.jpg);
-  background-size: repeat;
-}*/
-
-
 .card-tutor {
   border-style: solid;
   border-radius: 10px;
   border-color: rgb(32, 32, 138);
   border-width: 2px;
   background-color: whitesmoke;
-  opacity: 0.7;
-  width: 40rem;
+  opacity: 0.9;
+  width: 100%;
+  margin-left: 48px;
+  margin-right: 48px;
+  margin-top: 1.5vh;
+  margin-bottom: 1.5vh;
 }
 
 .c-details span {
@@ -376,7 +309,7 @@ button.join2 {
 }
 
 .progress div {
-  background-color:rgb(32, 32, 138);
+  background-color: rgb(32, 32, 138);
 }
 
 .text1 {
@@ -387,4 +320,16 @@ button.join2 {
 
 .text2 {
   color: #8fa1c4
+}
+
+button.join2 {
+  background-color: rgba(113, 50, 143, 0)!important;;
+  border: 1px solid black;
+  border-radius: 3px;
+  color: #231E39!important;
+  font-family: Montserrat, sans-serif;
+  font-weight: 500;
+  padding: 5px;
+  margin-top: 1vh;
+  margin-bottom: 0.5vh;
 }

@@ -9,8 +9,8 @@
 
         {% if exist %}
         
-          {% for tutor in tutors %}
-            {% include "../cards/tutor_card.html" with tutor=tutor %}
+          {% for tutor, fillperc in tutors %}
+            {% include "../cards/tutor_card.html" with tutor=tutor fillperc=fillperc %}
             {% block tutor_card %}
             {% endblock tutor_card %}
           {% endfor %}

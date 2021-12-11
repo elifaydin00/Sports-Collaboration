@@ -11,7 +11,7 @@
             <div class="media mb-2">
               <div class="media-body ml-3">
                 <h2>{{tutor.title}}</h2>
-                <br>
+                <h6>Total Fee: {{tutor.totalFee}}</h6>
                 <h4>Course by <a style="color: indigo; text-decoration: none;" href="/profile/{{tutor.tutorName.user.username}}">{{tutor.tutorName.name}}</a></h4>
                 <br>
                 {% if rating == "No ratings" %}
@@ -97,42 +97,38 @@
                 {% endif %}
                 <br>
                 <p>{{tutor.description}}</p>
+                {% if owned %}
+                  {% if status == '1' %}
+                    <p style="color: green; margin-top: 3vh; margin-bottom: -0.25vh;">Course is available to join!</p>
+                  {% elif status == '2' %}
+                    <p style="margin-top: 3vh;">After the course is completed, click the button below.</p>
+                    <div class="buttons">
+                      <button class="btn btn-outline-success text-decoration-none" onclick="location.href='{% url 'finish_tutor' tutor.id %}';">Complete the Course</button>
+                    </div>
+                  {% else %}
+                    <p style="margin-bottom: -0.25vh; margin-top: 3vh;">Course is completed!</p>
+                  {% endif %}
+                {% else %}
+                  {% if status == '1' %}
+                    {% if joined %}
+                      <p style="margin-bottom: -0.25vh; margin-top: 3vh; color: red;">
+                        You have already applied the course!
+                      </p>
+                    {% else %}
+                      <p style="color: green; margin-top: 3vh;">Course is available to join!</p>
+                      <div class="buttons">
+                        <button class="btn btn-outline-primary text-decoration-none" onclick="location.href='{% url 'payment_screen' tutor.id siteUser.id %}';">Apply Course & Proceed to Payment</button>
+                      </div>
+                    {% endif %}
+                  {% elif status == '2' %}
+                    <p style="margin-top: 3vh; margin-bottom: -0.25vh;">Course is in progress!</p>
+                  {% else %}
+                    <p style="margin-top: 3vh; margin-bottom: -0.25vh;">Course is completed!</p>
+                  {% endif %}
+                {% endif %}
               </div>
             </div>
           </div>
-          {% if owned %}
-            {% if disabled %}
-              <div class="buttons">
-                <button style="margin-left: 2vw; margin-bottom: 4vh;" class="btn btn-outline-danger text-decoration-none" onclick="location.href='{% url 'change_tutor_status' tutor.id %}';">Disabled</button>
-              </div>
-            {% else %}
-              <div class="buttons">
-                <button style="margin-left: 2vw; margin-bottom: 4vh;" class="btn btn-outline-success text-decoration-none" onclick="location.href='{% url 'change_tutor_status' tutor.id %}';">Enabled</button>
-              </div>
-            {% endif %}
-          {% else %}
-            {% if disabled %}
-              <p style="margin-left: 2vw; margin-bottom: 4vh; color: red;">
-                This course is not applicable at the moment!
-              </p>
-            {% else %}
-              {% if joined %}
-                {% if attended %}
-                  <p style="margin-left: 2vw; margin-bottom: 4vh; color: red;">
-                    You have already attended once!
-                  </p>
-                {% else %}
-                  <div class="buttons">
-                    <button style="margin-left: 2vw; margin-bottom: 4vh;" class="btn btn-outline-danger text-decoration-none" onclick="location.href='{% url 'leave_course' tutor.id %}';">Leave Course</button>
-                  </div>
-                {% endif %}
-              {% else %}
-                <div class="buttons">
-                  <button style="margin-left: 2vw; margin-bottom: 4vh;" class="btn btn-outline-primary text-decoration-none" onclick="location.href='{% url 'enter_course' tutor.id %}';">Apply Course</button>
-                </div>
-              {% endif %}
-            {% endif %}
-          {% endif %}
         </div>
       </div>
     </div>

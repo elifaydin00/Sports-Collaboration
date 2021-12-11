@@ -6,7 +6,7 @@
 	<div class="container">
     <div class="pt-4 pb-1">
       <div style="width: 25vw; height: 10vh; margin: auto;">
-        <h5 style="text-align: center; color: white">Search Tutors / Sports</h5>
+        <h5 style="text-align: center; color: black">Search Tutors / Sports</h5>
         <form action="" method="POST"> {% csrf_token %}
           <div class="input-group" style="width: 20vw; margin: auto; position: relative;">
             <input name="search_box" type="text" class="form-control" style="width: 16vw; border-radius: 0px;" placeholder="Search" aria-label="Search">
@@ -25,19 +25,19 @@
     </div>
 
     <div class="mt-1 mb-4" style="border: 1px solid; border-color: #ccc; border-radius: 20px;">
-      <h3 class="mt-4" style="text-align: center; color: white;">My Upcoming Tutor Teachings</h3>
+      <h3 class="mt-4" style="text-align: center; color: black;">My Upcoming Tutor Teachings</h3>
       {% if exist_tutors %}
     
         <div style="margin-left: auto; margin-right: auto;">
-        {% for tutor in tutors %}
-          {% include "../cards/tutor_card.html" with tutor=tutor %}
+        {% for tutor, fillperc in tutors %}
+          {% include "../cards/tutor_card.html" with tutor=tutor fillperc=fillperc %}
           {% block tutor_card %}
           {% endblock tutor_card %}
         {% endfor %}
         </div>
       {% else %}
 
-        <h6 class="mt-4 mb-3" style="text-align: center; color: white;">No upcoming teachings!</h6>
+        <h6 class="mt-4 mb-3" style="text-align: center; color: black;">No upcoming teachings!</h6>
 
       {% endif %}
 
@@ -54,19 +54,19 @@
     </div>
 
     <div class="mt-1 pb-4" style="border: 1px solid; border-color: #ccc; border-radius: 20px;">
-      <h3 class="mt-4" style="text-align: center; color: white;">My Upcoming Tutor Learnings</h3>
+      <h3 class="mt-4" style="text-align: center; color: black;">My Upcoming Tutor Learnings</h3>
       {% if exist_tutees %}
     
         <div style="margin-left: auto; margin-right: auto;">
-        {% for tutor in tutees %}
-          {% include "../cards/tutor_card.html" with tutor=tutor %}
+        {% for tutor, fillperc in tutees %}
+          {% include "../cards/tutor_card.html" with tutor=tutor fillperc=fillperc %}
           {% block tutor_card_2 %}
           {% endblock tutor_card_2 %}
         {% endfor %}
         </div>
       {% else %}
 
-        <h6 class="mt-4 mb-3" style="text-align: center; color: white;">No upcoming learnings!</h6>
+        <h6 class="mt-4 mb-3" style="text-align: center; color: black;">No upcoming learnings!</h6>
 
       {% endif %}
 

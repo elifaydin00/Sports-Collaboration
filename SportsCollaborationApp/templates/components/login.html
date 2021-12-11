@@ -19,9 +19,12 @@
     <div class="col text-center">
       <p style="text-align: center;">Still dont have an account?<a href="/signup/" class="btn">Sign Up</a></p>
     </div>
+    <div class="col text-center">
+      <p style="text-align: center;">Forgot Password?<a href="/password_reset/" class="btn">Recover Password</a></p>
+    </div>
     {% if messages %}
       {% for message in messages %}
-        <div style="margin-top: 15px;" class="text-center text-danger">{{ message }}</div>
+        <div style="margin-top: 7.5px;" class="text-center text-danger">{{ message }}</div>
       {% endfor %}
     {% endif %}
   </div>

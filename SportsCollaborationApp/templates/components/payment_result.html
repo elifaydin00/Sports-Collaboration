@@ -1,0 +1,19 @@
+{% load static %}
+
+{% block payment_result %}
+
+<div class="container-fluid" style="min-height: 84vh; background-size: cover; background-image: url({% static 'img/tutor_bg.jpg' %});">
+  <div class="row" style="padding-top: 10%;">
+    <div class="col-4"></div>
+    <div class="col-4" style="background: grey; border: 1px solid; border-color: grey; border-radius: 45px; height: 20vh;">
+      <h5 style="color: darkgreen; margin-top: 2vh; text-align: center;">Thank you for joining the course!</h5>
+      <p style="color: lightgrey; margin-top: 2vh; text-align: center;">Your payment is successful. You can check the tutor menu to see the course.</p>
+      <button style="width: 30%; margin: auto;" class="mt-4 btn btn-primary btn-block text-decoration-none" type="button" onclick="location.href='{% url 'tutor_main' %}'">
+        Back to Tutor Menu
+      </button>
+    </div>
+    <div class="col-4"></div>
+  </div>
+</div>
+
+{% endblock payment_result %}

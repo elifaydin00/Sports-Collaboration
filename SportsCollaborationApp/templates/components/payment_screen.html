@@ -1,0 +1,54 @@
+{% load static %}
+
+{% block payment_screen %}
+
+<div class="container-fluid" style="min-height: 84vh; background-size: cover; background-image: url({% static 'img/tutor_bg.jpg' %});">
+  <div class="row" style="padding-top: 7.5%;">
+    <div class="col-4"></div>
+    <div class="col-4" style="background: grey; border: 1px solid; border-color: grey; border-radius: 45px; height: 50vh;">
+      <h3 style="margin-top: 2vh; text-align: center;">Credit Card Payment</h3>
+      <form action="" method="POST"> {% csrf_token %}
+        <p style="margin: 0% 12.5%; margin-top: 3vh; margin-bottom: 0vh; text-align: left;">Name on Credit Card</p>
+        <div style="text-align: center;">
+          <input name="name" type="text" style="margin-top: 1vh; border: 1px solid; border-color: grey; border-radius: 0px; width: 75.5%;">
+        </div>
+        <p style="margin: 0% 12.5%; margin-top: 3vh; margin-bottom: 0vh; text-align: left;">Credit Card Number</p>
+        <div style="text-align: center;">
+          <input name="name" type="text" style="margin-top: 1vh; border: 1px solid; border-color: grey; border-radius: 0px; width: 75.5%;" placeholder="0000 0000 0000 0000">
+        </div>
+        <div style="margin: 0% 12.5%;">
+          <div class="row">
+            <div class="col-5" style="padding-right: 0;">
+              <p style="margin-top: 3vh; margin-bottom: 0vh; text-align: left;">Month & Year</p>
+              <div style="text-align: center;">
+                <input name="m_y" type="text" style="margin-top: 1vh; border: 1px solid; border-color: grey; border-radius: 0px;" placeholder="1/1900">
+              </div>
+            </div>
+            <div class="col-2" style="padding: 0; margin: 0;"></div>
+            <div class="col-5" style="padding-left: 0;">
+              <p style="margin-top: 3vh; margin-bottom: 0vh; text-align: left;">CVV</p>
+              <div style="text-align: center;">
+                <input name="cvv" type="number" style="margin-top: 1vh; border: 1px solid; border-color: grey; border-radius: 0px;" placeholder="000">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top: 4vh; margin-bottom: 1vh; text-align: center;">
+          <button class="btn btn-outline-info text-decoration-none" style="border: 5px solid; border-radius: 0px;" type="submit">
+            <h4 style="margin: 0;">Apply Course</h4>
+          </button>
+        </div>
+      </form>
+      <div style="width: 25vw; height: 5vh; margin: auto;">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="text-center" style="color: red">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+    <div class="col-4"></div>
+  </div>
+</div>
+
+{% endblock payment_screen %}

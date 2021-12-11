@@ -2,22 +2,29 @@
 
 {% block tutor_card %}
 
-<div class="tutor-container">
-  <div class="tutor-header">
-    <div class="mt-3 tutor-author--no-cover">
-      <h3>Course by <a style="text-decoration: none; color: black;" href="/profile/{{tutor.tutorName.user.username}}">{{tutor.tutorName.name}}</a></h3>
-    </div>
-  </div>
-  <div class="tutor-body">
-    <div class="tutor-title">
-      <h1>{{tutor.title}}</h1>
-    </div>
-    <div class="tutor-summary">
-      <p style="text-align: justify;">{{tutor.description}}</p>
-    </div>
-      <div class="buttons">
-        <button class="join2" onclick="location.href='{% url 'course' tutor.id %}';">Click for course details</button>
+<div class="row">
+  <div class="card-tutor p-3 mb-2">
+    <div class="d-flex justify-content-between">
+      <div class="d-flex flex-row align-items-center">
+        <div class="icon"><i class="fas fa-bullhorn"></i></div>
+        <div class="ms-2 c-details">
+          <h5><a style="text-decoration: none; color: black;" href="/profile/{{tutor.tutorName.user.username}}">{{tutor.tutorName.name}}</a></h5><span>{{tutor.totalFee}}</span>
+        </div>
       </div>
+      <div class="tutor-badge"><span>Tutor</span></div>
+    </div>
+    <div class="mt-5">
+      <h3 class="heading">{{tutor.title}}</h3>
+      <div class="mt-5">
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" style="width: {{fillperc|stringformat:"i"}}%" aria-valuenow="{{tutor.currentUsers|stringformat:"i"}}" aria-valuemin="0" aria-valuemax="{{tutor.maxUsers|stringformat:"i"}}"></div>
+        </div>
+        <div class="mt-3"><span class="text1">Capacity: {{tutor.currentUsers}} / {{tutor.maxUsers}} </span></div>
+        <div class="buttons">
+          <button class="join2" onclick="location.href='{% url 'course' tutor.id %}';">Click for details</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

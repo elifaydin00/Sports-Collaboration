@@ -1,3 +1,4 @@
+from django.db.models.fields import PositiveIntegerRelDbTypeMixin
 from django.shortcuts import redirect, render
 from django.contrib import auth
 from django.contrib.auth.models import User
@@ -5,6 +6,11 @@ from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import *
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
 
 
 def loginPage(request):
@@ -98,6 +104,19 @@ def registerPage(request):
         siteUser = SiteUser(user=user, name=name, email=email, age=age,
             phoneNumber=number, gender=gender_val, location=location, balance=0.0)
         siteUser.save()
+
+        emailBody = "Hello " + siteUser.name + ","
+        emailBody += "\n\nThank you for registering Find Me An Athlete."
+        emailBody += "\n\nBest regards,"
+        emailBody += "\nFind Me An Athlete Administration Team"
+
+        mail = EmailMessage(
+            'About Your Registration',
+            emailBody,
+            to=[email]
+        )
+
+        mail.send()
         auth.login(request, user)
         return redirect('main')
 
@@ -483,13 +502,23 @@ def rateActivity(request, id, rating):
 
 @login_required(login_url='login')
 def tutorMainPage(request):
-    tutor_courses = Tutor.objects.filter(tutorName__user=request.user)
+    
+    tutor_courses = []
+    tutor_fill_perc = []
+    tutor_courses_all = Tutor.objects.filter(tutorName__user=request.user)
+    for i in tutor_courses_all:
+        if i.tutoringStatus != '3':
+            tutor_courses.append(i)
+            tutor_fill_perc.append((i.currentUsers * 100) // i.maxUsers)
 
-    participated_tutors = TutorshipModel.objects.filter(siteUser__user=request.user).filter(tutorshipStatus='1')
+    participated_tutors = TutorshipModel.objects.filter(siteUser__user=request.user)
     tutee_courses = []
+    tutee_fill_perc = []
 
     for i in participated_tutors:
-        tutee_courses.append(i.tutor)
+        if i.tutor.tutoringStatus != '3':
+            tutee_courses.append(i.tutor)
+            tutee_fill_perc.append((i.tutor.currentUsers * 100) // i.tutor.maxUsers)
 
     if request.method == 'POST':
         if request.POST.get('search_box') != "":
@@ -499,7 +528,7 @@ def tutorMainPage(request):
 
     notifiCount = len(Notification.objects.filter(receiverSiteUser__user=request.user))
 
-    return render(request, 'pages/TutorMainPage.html', {'tutors': tutor_courses, 'exist_tutors': len(tutor_courses) != 0, 'tutees': tutee_courses, 'exist_tutees': len(tutee_courses) != 0, 'notifiCount': notifiCount})
+    return render(request, 'pages/TutorMainPage.html', {'tutors': zip(tutor_courses, tutor_fill_perc), 'exist_tutors': len(tutor_courses) != 0, 'tutees': zip(tutee_courses, tutee_fill_perc), 'exist_tutees': len(tutee_courses) != 0, 'notifiCount': notifiCount})
 
 
 @login_required(login_url='login')
@@ -508,13 +537,15 @@ def tutorSearchPage(request, search_str):
     all_tutors = list(Tutor.objects.all())
     all_tutors.sort(key=lambda x: x.title)
     tutors = []
+    tutors_fill_perc = []
     for i in all_tutors:
-        if i.tutoringStatus != '2' and (search_str.lower() in i.title.lower() or search_str.lower() in i.tutorName.name.lower()):
+        if i.tutoringStatus == '1' and (search_str.lower() in i.title.lower() or search_str.lower() in i.tutorName.name.lower()):
             tutors.append(i)
+            tutors_fill_perc.append((i.currentUsers * 100) // i.maxUsers)
 
     notifiCount = len(Notification.objects.filter(receiverSiteUser__user=request.user))
 
-    return render(request, 'pages/TutorSearchPage.html', {'tutors': tutors, 'exist': len(tutors) != 0, 'notifiCount': notifiCount})
+    return render(request, 'pages/TutorSearchPage.html', {'tutors': zip(tutors, tutors_fill_perc), 'exist': len(tutors) != 0, 'notifiCount': notifiCount})
 
 
 @login_required(login_url='login')
@@ -582,6 +613,8 @@ def postCoursePage(request):
     if request.method == 'POST':
         title = request.POST['title']
         description = request.POST['description']
+        max_users = request.POST['max_users']
+        total_fee = request.POST['total_fee']
 
         if title == "" or description == "":
             messages.error(request, 'Please, fill all of fields!')
@@ -595,8 +628,12 @@ def postCoursePage(request):
             messages.error(request, 'Activity description field must have 25 or more characters!')
             return redirect('post_course')
 
+        if int(max_users) < 1:
+            messages.error(request, 'Maximum participants field must be non-negative value!')
+            return redirect('post_course')
+
         siteUser = SiteUser.objects.get(user=request.user)
-        newCourse = Tutor(tutorName=siteUser, title=title, description=description, tutoringStatus='1')
+        newCourse = Tutor(tutorName=siteUser, title=title, description=description, tutoringStatus='1', currentUsers=0, maxUsers=int(max_users), totalFee=total_fee)
         newCourse.save()
 
         return redirect('tutor_main')
@@ -623,62 +660,25 @@ def coursePage(request, id):
     else:
         rating = float("{:.2f}".format(point / float(counter)))
 
-    attendedStatus = False
-    if len(tutee) == 1:
-      if tutee[0].tutorshipStatus == '2':
-        attendedStatus = True
-
     notifiCount = len(Notification.objects.filter(receiverSiteUser__user=request.user))
 
-    return render(request, 'pages/CoursePage.html', {'tutor': tutor, 'rating': rating, 'owned': siteUser == tutor.tutorName, 'disabled': tutor.tutoringStatus == '2', 'joined': len(tutee) == 1, 'attended': attendedStatus, 'notifiCount': notifiCount})
+    return render(request, 'pages/CoursePage.html', {'siteUser': siteUser, 'tutor': tutor, 'rating': rating, 'owned': siteUser == tutor.tutorName, 'status': tutor.tutoringStatus, 'joined': len(tutee) == 1, 'notifiCount': notifiCount})
 
 
 @login_required(login_url='login')
-def changeTutorStatus(request, id):
+def finishTutor(request, id):
     tutor = Tutor.objects.get(id=id)
-    requestedSiteUser = tutor.tutorName
-    if request.user != requestedSiteUser.user:
-        return redirect('course', id)
-    if tutor.tutoringStatus == '1':
-        tutor.tutoringStatus = '2'
-    else:
-        tutor.tutoringStatus = '1'
+    if (tutor.tutorName.user != request.user):
+        return redirect('activity', id)
+    tutor.tutoringStatus = '3'
     tutor.save()
-    return redirect('course', id)
-
-
-@login_required(login_url='login')
-def enterCourse(request, id):
-    tutor = Tutor.objects.get(id=id)
-    requestedSiteUser = SiteUser.objects.get(user=request.user)
-    if len(list(TutorshipModel.objects.filter(siteUser=requestedSiteUser).filter(tutor=tutor))) == 1:
-        return redirect('course', id)
-    tutee = TutorshipModel(siteUser=requestedSiteUser, tutor=tutor, tutorshipStatus='1')
-    tutee.save()
-
-    title = "About Tutorship"
-    description = requestedSiteUser.name + " applied to your '" + tutor.title + "' course."
-    newNotifi = Notification(senderSiteUser=requestedSiteUser, receiverSiteUser=tutor.tutorName, title=title, description=description, notificationType='1')
-    newNotifi.save()
-
-    return redirect('course', id)
-
-
-@login_required(login_url='login')
-def leaveCourse(request, id):
-    tutor = Tutor.objects.get(id=id)
-    requestedSiteUser = SiteUser.objects.get(user=request.user)
-    if len(list(TutorshipModel.objects.filter(siteUser=requestedSiteUser).filter(tutor=tutor))) == 0:
-        return redirect('course', id)
-    tutee = TutorshipModel.objects.get(siteUser=requestedSiteUser, tutor=tutor)
-    tutee.tutorshipStatus = '2'
-    tutee.save()
-
-    title = "Rating Ended Course"
-    description = "Please rate the course '" + tutor.title + "'."
-    newNotifi = Notification(senderSiteUser=tutor.tutorName, receiverSiteUser=requestedSiteUser, title=title, description=description, pointerId=tutor.tutorName.id, notificationType='4')
-    newNotifi.save()
-
+    siteUser = SiteUser.objects.get(user=request.user)
+    participants = TutorshipModel.objects.filter(tutor=tutor)
+    for i in participants:
+        title = "Rating Finished Course"
+        description = "Please rate the course '" + tutor.title + "'."
+        newNotifi = Notification(senderSiteUser=siteUser, receiverSiteUser=i.siteUser, title=title, description=description, pointerId=tutor.tutorName.id, notificationType='4')
+        newNotifi.save()
     return redirect('course', id)
 
 
@@ -693,3 +693,97 @@ def rateTutor(request, id, rating):
     newRating.save()
     notification.delete()
     return redirect('notification')
+
+
+def passwordResetPage(request):
+
+    if request.method == 'POST':
+        email = request.POST['email']
+
+        if email == "":
+            messages.error(request, 'Please, fill the email field!')
+            return redirect('password_reset')
+
+        try:
+            siteUser = SiteUser.objects.get(email=email)
+        except:
+            messages.error(request, 'User does not exist!')
+            return redirect('password_reset')
+
+        uid = urlsafe_base64_encode(force_bytes(siteUser.user.pk)),
+        token = default_token_generator.make_token(siteUser.user),
+
+        emailBody = "Hello " + siteUser.name + ","
+        emailBody += "\n\nWe received a request to reset the password for your account for this email address. To initiate the password reset process for your account, click the link below."
+        emailBody += "\n\nhttp://127.0.0.1:8000/reset/" + uid[0] + "/" + token[0] + "/"
+        emailBody += "\n\nThis link can only be used once. If you need to reset your password again, please request another reset."
+        emailBody += "\n\nIf you did not make this request, you can simply ignore this email."
+        emailBody += "\n\nBest regards,"
+        emailBody += "\nFind Me An Athlete Administration Team"
+
+        mail = EmailMessage(
+            'Password Reset Requested',
+            emailBody,
+            to=[email]
+        )
+
+        mail.send()
+        return redirect('password_reset_done')
+
+    return render(request, "pages/PasswordResetPage.html")
+
+
+@login_required(login_url='login')
+def paymentScreenPage(request, tutor_id, user_id):
+
+    requestedUser = SiteUser.objects.get(id=user_id)
+
+    if requestedUser.user != request.user:
+        return redirect("course", tutor_id)
+
+    if request.method == 'POST':
+        name = request.POST['name']
+        m_y = request.POST['m_y']
+        cvv = request.POST['cvv']
+
+        if (name == "" or m_y == "" or cvv == ""):
+            messages.error(request, 'Please, fill all of fields!')
+            return redirect('payment_screen', tutor_id, user_id)
+
+        tutor = Tutor.objects.get(id=tutor_id)
+        if tutor.currentUsers == tutor.maxUsers:
+            return redirect('course', tutor_id)
+
+        if len(list(TutorshipModel.objects.filter(siteUser=requestedUser).filter(tutor=tutor))) == 1:
+            return redirect('course', tutor_id)
+        tutee = TutorshipModel(siteUser=requestedUser, tutor=tutor)
+        tutee.save()
+        tutor.currentUsers += 1
+        if tutor.currentUsers == tutor.maxUsers:
+            tutor.tutoringStatus='2'
+        tutor.save()
+        title = "About Tutorship"
+        description = requestedUser.name + " applied to your '" + tutor.title + "' course."
+        newNotifi = Notification(senderSiteUser=requestedUser, receiverSiteUser=tutor.tutorName, title=title, description=description, notificationType='1')
+        newNotifi.save()
+
+
+
+        return redirect('payment_result', tutor_id, user_id)
+
+    notifiCount = len(Notification.objects.filter(receiverSiteUser__user=request.user))
+
+    return render(request, "pages/PaymentScreenPage.html", {'notifiCount': notifiCount})
+
+
+@login_required(login_url='login')
+def paymentResultPage(request, tutor_id, user_id):
+
+    requestedUser = SiteUser.objects.get(id=user_id)
+
+    if requestedUser.user != request.user:
+        return redirect("course", tutor_id)
+
+    notifiCount = len(Notification.objects.filter(receiverSiteUser__user=request.user))
+
+    return render(request, "pages/PaymentResultPage.html", {'notifiCount': notifiCount})
